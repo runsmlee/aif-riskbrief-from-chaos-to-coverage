@@ -5,6 +5,9 @@ import {
   Hero,
   Features,
   HowItWorks,
+  StatsAndCTA,
+  Testimonials,
+  FAQ,
   RiskAssessmentForm,
   CoverageRecommendations,
   Footer,
@@ -48,8 +51,11 @@ function App(): ReactElement {
         {!assessment ? (
           <>
             <Hero onStartAssessment={handleStartAssessment} />
+            <StatsAndCTA onStartAssessment={handleStartAssessment} />
             <Features />
             <HowItWorks />
+            <Testimonials />
+            <FAQ />
             {showAssessment && (
               <RiskAssessmentForm onComplete={handleAssessmentComplete} />
             )}

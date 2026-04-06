@@ -24,4 +24,15 @@ describe('Header', () => {
     const html = renderToString(createElement(Header));
     expect(html).toContain('aria-label="Main navigation"');
   });
+
+  it('renders the mobile menu button', () => {
+    const html = renderToString(createElement(Header));
+    expect(html).toContain('aria-label="Open menu"');
+  });
+
+  it('has Testimonials and FAQ nav links', () => {
+    const html = renderToString(createElement(Header));
+    expect(html).toContain('Testimonials');
+    expect(html).toContain('FAQ');
+  });
 });

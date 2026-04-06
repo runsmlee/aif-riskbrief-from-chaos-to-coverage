@@ -31,10 +31,31 @@ describe('App', () => {
     expect(html).toContain('How RiskBrief Works');
   });
 
+  it('renders stats and social proof', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('Assessments Completed');
+    expect(html).toContain('User Satisfaction');
+  });
+
+  it('renders the testimonials section', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('Trusted by Thousands');
+  });
+
+  it('renders the FAQ section', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('Frequently Asked Questions');
+  });
+
   it('renders the footer', () => {
     const html = renderToString(createElement(App));
     const currentYear = new Date().getFullYear();
     expect(html).toContain(`${currentYear}`);
     expect(html).toContain('RiskBrief. All rights reserved');
+  });
+
+  it('has skip link for accessibility', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('Skip to main content');
   });
 });
