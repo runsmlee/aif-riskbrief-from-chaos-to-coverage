@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { useScrollReveal } from '../hooks';
 
 interface Feature {
   icon: ReactElement;
@@ -68,6 +69,8 @@ interface FeaturesProps {
 }
 
 export function Features({ className = '' }: FeaturesProps): ReactElement {
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.1 });
+
   return (
     <section
       id="features"
@@ -75,7 +78,11 @@ export function Features({ className = '' }: FeaturesProps): ReactElement {
       aria-labelledby="features-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto">
+        <div
+          className={`text-center max-w-3xl mx-auto transition-all duration-600 ease-out ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+          }`}
+        >
           <h2
             id="features-heading"
             className="text-3xl sm:text-4xl font-bold text-gray-900"
@@ -87,19 +94,24 @@ export function Features({ className = '' }: FeaturesProps): ReactElement {
           </p>
         </div>
 
-        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
+        <div
+          ref={ref}
+          className={`mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children ${
+            isVisible ? 'reveal-visible' : ''
+          }`}
+        >
+          {features.map((feature) => (
             <article
-              key={index}
-              className="card group hover:border-primary-200 border border-transparent"
+              key={feature.title}
+              className="card group hover:border-primary-200 border border-transparent cursor-default"
             >
-              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-500 mb-4 group-hover:bg-primary-500 group-hover:text-white transition-colors">
+              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-500 mb-4 group-hover:bg-primary-500 group-hover:text-white transition-colors duration-300">
                 {feature.icon}
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 {feature.title}
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 leading-relaxed">
                 {feature.description}
               </p>
             </article>

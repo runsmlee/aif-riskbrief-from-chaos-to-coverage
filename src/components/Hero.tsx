@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
+import { useScrollReveal } from '../hooks';
 
 interface HeroProps {
   onStartAssessment: () => void;
@@ -6,35 +8,70 @@ interface HeroProps {
 }
 
 export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactElement {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { ref: vizRef, isVisible: vizVisible } = useScrollReveal({ threshold: 0.2 });
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section
-      className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-white ${className}`}
+      className={`relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-primary-50/30 ${className}`}
       aria-labelledby="hero-heading"
     >
-      <div className="absolute inset-0 bg-grid-pattern opacity-5" aria-hidden="true" />
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #1f2937 1px, transparent 0)`,
+            backgroundSize: '40px 40px',
+          }}
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left animate-fade-in">
-            <h1
-              id="hero-heading"
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left column - Text */}
+          <div className="text-center lg:text-left">
+            <div
+              className={`transition-all duration-700 ease-out ${
+                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
             >
-              From Chaos to{' '}
-              <span className="gradient-text">Coverage</span>
-            </h1>
-            <p className="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0">
-              Navigate insurance with confidence. Get personalized coverage recommendations
-              based on your unique risk profile in minutes, not hours.
-            </p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 border border-primary-200 rounded-full text-sm text-primary-700 font-medium mb-6">
+                <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" aria-hidden="true" />
+                Free Risk Assessment Tool
+              </div>
+
+              <h1
+                id="hero-heading"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
+              >
+                From Chaos to{' '}
+                <span className="gradient-text">Coverage</span>
+              </h1>
+              <p className="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Navigate insurance with confidence. Get personalized coverage recommendations
+                based on your unique risk profile in minutes, not hours.
+              </p>
+            </div>
+
+            <div
+              className={`mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-all duration-700 delay-200 ease-out ${
+                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <button
                 type="button"
                 onClick={onStartAssessment}
-                className="btn btn-primary text-lg px-8 py-4"
+                className="btn btn-primary text-lg px-8 py-4 group"
               >
                 Start Free Assessment
                 <svg
-                  className="ml-2 w-5 h-5"
+                  className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -50,7 +87,12 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 Learn More
               </a>
             </div>
-            <div className="mt-10 flex items-center justify-center lg:justify-start gap-8 text-sm text-gray-500">
+
+            <div
+              className={`mt-10 flex items-center justify-center lg:justify-start gap-6 sm:gap-8 text-sm text-gray-500 transition-all duration-700 delay-300 ease-out ${
+                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -72,9 +114,17 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
             </div>
           </div>
 
-          <div className="hidden lg:block relative">
+          {/* Right column - Visual card */}
+          <div
+            ref={vizRef}
+            className={`hidden lg:block relative transition-all duration-700 ease-out ${
+              vizVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+            }`}
+          >
             <div className="relative w-full aspect-square max-w-lg mx-auto">
+              {/* Decorative rotated background */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-100 to-primary-200 rounded-3xl transform rotate-3" />
+              {/* Main card */}
               <div className="absolute inset-0 bg-white rounded-3xl shadow-2xl p-8">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
@@ -90,7 +140,7 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                   </div>
 
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full w-3/5 bg-gradient-to-r from-primary-400 to-primary-500 rounded-full" />
+                    <div className="h-full w-3/5 bg-gradient-to-r from-primary-400 to-primary-500 rounded-full animate-progress" />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -106,17 +156,17 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                       <p className="text-xs text-gray-500 mb-1">Auto Coverage</p>
                       <p className="text-lg font-semibold text-gray-900">$100K</p>
                     </div>
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <p className="text-xs text-gray-500 mb-1">Monthly Premium</p>
-                      <p className="text-lg font-semibold text-primary-500">$127</p>
+                    <div className="bg-primary-50 rounded-xl p-4 border border-primary-100">
+                      <p className="text-xs text-primary-600 mb-1">Monthly Premium</p>
+                      <p className="text-lg font-semibold text-primary-600">$127</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm text-green-600">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
+                    <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span>You could save $180/year</span>
+                    <span className="font-medium">You could save $180/year</span>
                   </div>
                 </div>
               </div>

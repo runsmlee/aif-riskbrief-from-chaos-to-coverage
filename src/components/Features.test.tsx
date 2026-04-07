@@ -24,4 +24,14 @@ describe('Features', () => {
     expect(html).toContain('AI-powered algorithm');
     expect(html).toContain('Get personalized coverage recommendations');
   });
+
+  it('has proper section semantics', () => {
+    const html = renderToString(createElement(Features));
+    expect(html).toContain('aria-labelledby="features-heading"');
+  });
+
+  it('renders stagger animation container', () => {
+    const html = renderToString(createElement(Features));
+    expect(html).toContain('stagger-children');
+  });
 });

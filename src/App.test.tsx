@@ -58,4 +58,14 @@ describe('App', () => {
     const html = renderToString(createElement(App));
     expect(html).toContain('Skip to main content');
   });
+
+  it('renders the CTA section', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('Ready to Find Your Ideal Coverage');
+  });
+
+  it('renders privacy notice in footer', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('informational purposes only');
+  });
 });

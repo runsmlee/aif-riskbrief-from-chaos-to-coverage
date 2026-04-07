@@ -25,4 +25,11 @@ describe('Testimonials', () => {
     const html = renderToString(createElement(Testimonials));
     expect(html).toContain('aria-labelledby="testimonials-heading"');
   });
+
+  it('renders testimonial roles', () => {
+    const html = renderToString(createElement(Testimonials));
+    expect(html).toContain('Small Business Owner');
+    expect(html).toContain('Software Engineer');
+    expect(html).toContain('First-time Homeowner');
+  });
 });

@@ -7,6 +7,7 @@ interface HeaderProps {
 
 export function Header({ className = '' }: HeaderProps): ReactElement {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMobileMenu = useCallback(() => {
@@ -15,6 +16,15 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
 
   const closeMobileMenu = useCallback(() => {
     setMobileMenuOpen(false);
+  }, []);
+
+  useEffect(() => {
+    function handleScroll(): void {
+      setIsScrolled(window.scrollY > 10);
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
@@ -41,11 +51,17 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
   }, [mobileMenuOpen]);
 
   return (
-    <header className={`bg-white shadow-sm sticky top-0 z-50 ${className}`}>
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-sm'
+          : 'bg-white shadow-sm'
+      } ${className}`}
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex items-center justify-between h-16">
-          <a href="/" className="flex items-center gap-2" aria-label="RiskBrief Home">
-            <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+          <a href="/" className="flex items-center gap-2 group" aria-label="RiskBrief Home">
+            <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
               <svg
                 className="w-5 h-5 text-white"
                 fill="none"
@@ -117,13 +133,17 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
           </button>
         </div>
 
-        {mobileMenuOpen && (
-          <div
-            id="mobile-menu"
-            ref={menuRef}
-            className="md:hidden border-t border-gray-100 py-4 animate-fade-in"
-            role="menu"
-          >
+        {/* Mobile menu */}
+        <div
+          id="mobile-menu"
+          ref={menuRef}
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
+            mobileMenuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+          role="menu"
+          aria-hidden={!mobileMenuOpen}
+        >
+          <div className="border-t border-gray-100 py-4">
             <div className="flex flex-col gap-2">
               <a
                 href="#features"
@@ -167,7 +187,7 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
               </a>
             </div>
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );

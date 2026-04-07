@@ -35,4 +35,14 @@ describe('Header', () => {
     expect(html).toContain('Testimonials');
     expect(html).toContain('FAQ');
   });
+
+  it('has sticky header positioning', () => {
+    const html = renderToString(createElement(Header));
+    expect(html).toContain('sticky');
+  });
+
+  it('has mobile menu container', () => {
+    const html = renderToString(createElement(Header));
+    expect(html).toContain('id="mobile-menu"');
+  });
 });

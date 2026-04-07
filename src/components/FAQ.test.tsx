@@ -32,4 +32,15 @@ describe('FAQ', () => {
     const html = renderToString(createElement(FAQ));
     expect(html).toContain('aria-labelledby="faq-heading"');
   });
+
+  it('renders chevron icons for accordion items', () => {
+    const html = renderToString(createElement(FAQ));
+    expect(html).toContain('transition-transform');
+  });
+
+  it('has proper FAQ questions text', () => {
+    const html = renderToString(createElement(FAQ));
+    expect(html).toContain('How does RiskBrief generate my risk assessment?');
+    expect(html).toContain('Is RiskBrief free to use?');
+  });
 });

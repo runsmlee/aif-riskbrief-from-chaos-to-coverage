@@ -26,4 +26,25 @@ describe('Hero', () => {
     expect(html).toContain('5-Minute Process');
     expect(html).toContain('Expert Insights');
   });
+
+  it('renders the badge / pill', () => {
+    const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
+    expect(html).toContain('Free Risk Assessment Tool');
+  });
+
+  it('renders the visual card with risk info', () => {
+    const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
+    expect(html).toContain('Risk Score');
+    expect(html).toContain('Monthly Premium');
+  });
+
+  it('renders estimated savings indicator', () => {
+    const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
+    expect(html).toContain('save $180/year');
+  });
+
+  it('has Learn More link', () => {
+    const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
+    expect(html).toContain('Learn More');
+  });
 });
