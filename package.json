@@ -18,8 +18,8 @@
   "license": "ISC",
   "description": "RiskBrief - From Chaos to Coverage. Insurance risk assessment and coverage recommendations.",
   "dependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.2",
@@ -32,11 +32,11 @@
     "autoprefixer": "^10.4.27",
     "happy-dom": "^20.8.9",
     "jsdom": "^29.0.2",
-    "postcss": "^8.5.8",
+    "postcss": "^8.5.9",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
-    "vite": "^8.0.5",
-    "vitest": "^4.1.2"
+    "vite": "^8.0.8",
+    "vitest": "^4.1.4"
   },
   "main": "postcss.config.js"
 }

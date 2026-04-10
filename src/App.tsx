@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, lazy, Suspense } from 'react';
 import type { ReactElement } from 'react';
 import {
   Header,
@@ -8,11 +8,30 @@ import {
   StatsAndCTA,
   Testimonials,
   FAQ,
-  RiskAssessmentForm,
-  CoverageRecommendations,
   Footer,
 } from './components';
 import type { RiskAssessment } from './types';
+
+const RiskAssessmentForm = lazy(() =>
+  import('./components/RiskAssessmentForm').then((m) => ({ default: m.RiskAssessmentForm }))
+);
+
+const CoverageRecommendations = lazy(() =>
+  import('./components/CoverageRecommendations').then((m) => ({
+    default: m.CoverageRecommendations,
+  }))
+);
+
+function LoadingSpinner(): ReactElement {
+  return (
+    <div className="flex items-center justify-center py-24" role="status" aria-label="Loading">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-10 h-10 border-3 border-primary-200 border-t-primary-500 rounded-full animate-spin" />
+        <p className="text-gray-500 text-sm font-medium">Loading...</p>
+      </div>
+    </div>
+  );
+}
 
 function App(): ReactElement {
   const [showAssessment, setShowAssessment] = useState(false);
@@ -57,11 +76,15 @@ function App(): ReactElement {
             <Testimonials />
             <FAQ />
             {showAssessment && (
-              <RiskAssessmentForm onComplete={handleAssessmentComplete} />
+              <Suspense fallback={<LoadingSpinner />}>
+                <RiskAssessmentForm onComplete={handleAssessmentComplete} />
+              </Suspense>
             )}
           </>
         ) : (
-          <CoverageRecommendations assessment={assessment} onReset={handleReset} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <CoverageRecommendations assessment={assessment} onReset={handleReset} />
+          </Suspense>
         )}
       </main>
       <Footer />

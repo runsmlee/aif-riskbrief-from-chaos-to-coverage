@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { ReactElement } from 'react';
 import type { RiskAssessment, CoverageRecommendation } from '../types';
+import { Modal } from './Modal';
+import { RiskBreakdownChart } from './RiskBreakdownChart';
+import { CoverageComparisonTable } from './CoverageComparisonTable';
+import { downloadReport } from '../utils/reportGenerator';
 
 interface CoverageRecommendationsProps {
   assessment: RiskAssessment;
@@ -90,7 +94,6 @@ function RiskScoreGauge({ score, level }: { score: number; level: string }): Rea
     <div className="flex flex-col items-center">
       <div className="relative w-36 h-36">
         <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-          {/* Background circle */}
           <circle
             className="text-gray-200"
             stroke="currentColor"
@@ -100,7 +103,6 @@ function RiskScoreGauge({ score, level }: { score: number; level: string }): Rea
             cy="18"
             r="15.9155"
           />
-          {/* Animated score arc */}
           <circle
             stroke={colors.stroke}
             strokeWidth="3"
@@ -185,7 +187,6 @@ function RecommendationCard({
             </div>
           </div>
 
-          {/* Expandable benefits section */}
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
@@ -230,6 +231,9 @@ export function CoverageRecommendations({
   onReset,
   className = '',
 }: CoverageRecommendationsProps): ReactElement {
+  const [showQuoteModal, setShowQuoteModal] = useState(false);
+  const [showCompareView, setShowCompareView] = useState(false);
+
   const totalMonthly = assessment.recommendations.reduce((sum, rec) => {
     const premium = parseFloat(rec.monthlyPremium.replace('$', ''));
     return sum + (isNaN(premium) ? 0 : premium);
@@ -237,6 +241,18 @@ export function CoverageRecommendations({
 
   const estimatedAnnualSavings = Math.round(totalMonthly * 12 * 0.15);
   const coverageTypes = assessment.recommendations.map((r) => typeLabels[r.type]);
+
+  const handleDownloadReport = useCallback(() => {
+    downloadReport(assessment);
+  }, [assessment]);
+
+  const riskFactorData = [
+    { label: 'Age Factor', value: assessment.score > 50 ? 15 : 5, maxValue: 20, color: '#ef4444' },
+    { label: 'Health Profile', value: assessment.factors.includes('Existing health conditions') ? 15 : 5, maxValue: 20, color: '#f97316' },
+    { label: 'Asset Protection', value: (assessment.factors.includes('Home ownership') ? 5 : 0) + (assessment.factors.includes('Vehicle ownership') ? 5 : 0), maxValue: 15, color: '#eab308' },
+    { label: 'Dependency Risk', value: assessment.factors.includes('Dependents to protect') ? 10 : 3, maxValue: 15, color: '#3b82f6' },
+    { label: 'Overall Exposure', value: Math.round(assessment.score / 5), maxValue: 20, color: '#8b5cf6' },
+  ];
 
   return (
     <section
@@ -255,7 +271,7 @@ export function CoverageRecommendations({
 
         <div className="grid lg:grid-cols-3 gap-8 mb-12">
           {/* Left sidebar - Risk Profile */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-6">
             <div className="card text-center animate-fade-in-up" style={{ animationDelay: '100ms' }}>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Risk Profile</h3>
               <RiskScoreGauge score={assessment.score} level={assessment.level} />
@@ -275,6 +291,12 @@ export function CoverageRecommendations({
                 </div>
               )}
             </div>
+
+            {/* Risk Factor Breakdown Chart */}
+            <div className="card animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Risk Breakdown</h3>
+              <RiskBreakdownChart factors={riskFactorData} />
+            </div>
           </div>
 
           {/* Right side - Recommendations */}
@@ -291,6 +313,30 @@ export function CoverageRecommendations({
           </div>
         </div>
 
+        {/* Comparison Toggle */}
+        <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+          <button
+            type="button"
+            onClick={() => setShowCompareView(!showCompareView)}
+            className="flex items-center gap-2 text-primary-500 hover:text-primary-600 font-semibold transition-colors mx-auto"
+            aria-expanded={showCompareView}
+          >
+            <svg className={`w-5 h-5 transition-transform duration-200 ${showCompareView ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+            {showCompareView ? 'Hide' : 'Show'} Comparison Table
+          </button>
+          <div
+            className={`overflow-hidden transition-all duration-300 mt-4 ${
+              showCompareView ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className="card p-0 overflow-hidden">
+              <CoverageComparisonTable recommendations={assessment.recommendations} />
+            </div>
+          </div>
+        </div>
+
         {/* Summary Cards */}
         <div className="grid sm:grid-cols-3 gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
           <div className="card bg-primary-50 border border-primary-100 text-center">
@@ -303,7 +349,7 @@ export function CoverageRecommendations({
           </div>
           <div className="card bg-blue-50 border border-blue-100 text-center">
             <p className="text-sm text-blue-600 font-medium">Coverage Types</p>
-            <p className="text-sm font-semibold text-blue-600 mt-1">{coverageTypes.join(' • ')}</p>
+            <p className="text-sm font-semibold text-blue-600 mt-1">{coverageTypes.join(' \u2022 ')}</p>
           </div>
         </div>
 
@@ -337,15 +383,75 @@ export function CoverageRecommendations({
           </button>
           <button
             type="button"
+            onClick={handleDownloadReport}
+            className="btn bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Download Report
+          </button>
+          <button
+            type="button"
             className="btn btn-primary"
-            onClick={() => {
-              alert('This feature would connect you with insurance providers in a full implementation.');
-            }}
+            onClick={() => setShowQuoteModal(true)}
           >
             Get Quotes
           </button>
         </div>
       </div>
+
+      {/* Quote Modal */}
+      <Modal
+        isOpen={showQuoteModal}
+        onClose={() => setShowQuoteModal(false)}
+        title="Connect with Insurance Providers"
+      >
+        <div className="space-y-4">
+          <p className="text-gray-600">
+            In a full implementation, this would connect you with licensed insurance providers
+            who can offer quotes based on your risk profile.
+          </p>
+          <div className="bg-primary-50 border border-primary-100 rounded-lg p-4">
+            <h4 className="font-semibold text-primary-700 mb-2">Your Summary</h4>
+            <ul className="text-sm text-primary-600 space-y-1">
+              <li>Risk Score: {assessment.score}/100 ({assessment.level})</li>
+              <li>Recommended Coverages: {assessment.recommendations.length}</li>
+              <li>Estimated Monthly: ${totalMonthly.toFixed(0)}</li>
+            </ul>
+          </div>
+          <div className="space-y-3">
+            <div>
+              <label htmlFor="quote-email" className="label">Email Address</label>
+              <input
+                type="email"
+                id="quote-email"
+                className="input"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label htmlFor="quote-phone" className="label">Phone Number (Optional)</label>
+              <input
+                type="tel"
+                id="quote-phone"
+                className="input"
+                placeholder="(555) 123-4567"
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary w-full"
+            onClick={() => setShowQuoteModal(false)}
+          >
+            Request Quotes
+          </button>
+          <p className="text-xs text-gray-400 text-center">
+            By submitting, you agree to be contacted by licensed insurance providers.
+          </p>
+        </div>
+      </Modal>
     </section>
   );
 }
