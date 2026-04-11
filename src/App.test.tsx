@@ -1,6 +1,18 @@
 import { describe, it, expect } from 'vitest';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
+
+// Pre-import lazy components so they resolve in the module cache during SSR.
+// Without this, renderToString cannot resolve lazy() boundaries.
+import './components/Features';
+import './components/HowItWorks';
+import './components/StatsAndCTA';
+import './components/Testimonials';
+import './components/FAQ';
+import './components/Footer';
+import './components/RiskAssessmentForm';
+import './components/CoverageRecommendations';
+
 import App from './App';
 
 describe('App', () => {
