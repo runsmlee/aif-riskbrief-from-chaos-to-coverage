@@ -152,7 +152,7 @@ function App(): ReactElement {
             </>
           ) : (
             <Suspense fallback={<LoadingSpinner />}>
-              <CoverageRecommendations assessment={assessment} onReset={handleReset} />
+              <CoverageRecommendations assessment={assessment} onReset={handleReset} onRestore={handleAssessmentComplete} />
             </Suspense>
           )}
         </ErrorBoundary>

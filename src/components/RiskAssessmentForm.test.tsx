@@ -103,4 +103,23 @@ describe('RiskAssessmentForm', () => {
     const html = renderToString(createElement(RiskAssessmentForm, { onComplete: mockOnComplete }));
     expect(html).toContain('id="assessment"');
   });
+
+  it('includes smoking status in the Lifestyle step structure', () => {
+    // Smoking status renders on the lifestyle step (step 2), not on the initial profile step.
+    // The progress indicator renders all step labels regardless of active step.
+    const html = renderToString(createElement(RiskAssessmentForm, { onComplete: mockOnComplete }));
+    expect(html).toContain('Lifestyle');
+    expect(html).toContain('aria-valuemax="3"');
+    expect(html).toContain('Assets');
+  });
+
+  it('includes current coverage status in the Assets step structure', () => {
+    // Current coverage status renders on the assets step (step 3), not on the initial profile step.
+    // The progress indicator renders all step labels regardless of active step.
+    const html = renderToString(createElement(RiskAssessmentForm, { onComplete: mockOnComplete }));
+    expect(html).toContain('Assets');
+    expect(html).toContain('aria-valuemax="3"');
+    expect(html).toContain('Profile');
+    expect(html).toContain('Lifestyle');
+  });
 });

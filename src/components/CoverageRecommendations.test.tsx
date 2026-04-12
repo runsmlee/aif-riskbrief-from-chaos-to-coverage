@@ -40,6 +40,7 @@ const mockAssessment: RiskAssessment = {
       benefits: ['Liability coverage', 'Collision coverage'],
     },
   ],
+  coverageGapCount: 2,
 };
 
 describe('CoverageRecommendations', () => {
@@ -144,6 +145,13 @@ describe('CoverageRecommendations', () => {
   });
 
   it('renders the quote modal trigger', () => {
+    const html = renderToString(
+      createElement(CoverageRecommendations, { assessment: mockAssessment, onReset: () => {} })
+    );
+    expect(html).toContain('Get Quotes');
+  });
+
+  it('renders Get Quotes button to trigger quote modal', () => {
     const html = renderToString(
       createElement(CoverageRecommendations, { assessment: mockAssessment, onReset: () => {} })
     );

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { ReactElement } from 'react';
-import type { RiskAssessment, CoverageRecommendation } from '../types';
+import type { RiskAssessment, CoverageRecommendation, AssessmentHistoryEntry } from '../types';
+import { ASSESSMENT_STORAGE_KEY } from '../types';
 import { Modal } from './Modal';
 import { RiskBreakdownChart } from './RiskBreakdownChart';
 import { CoverageComparisonTable } from './CoverageComparisonTable';
@@ -9,6 +10,7 @@ import { downloadReport } from '../utils/reportGenerator';
 interface CoverageRecommendationsProps {
   assessment: RiskAssessment;
   onReset: () => void;
+  onRestore?: (assessment: RiskAssessment) => void;
   className?: string;
 }
 
@@ -229,17 +231,34 @@ function RecommendationCard({
 export function CoverageRecommendations({
   assessment,
   onReset,
+  onRestore,
   className = '',
 }: CoverageRecommendationsProps): ReactElement {
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [showCompareView, setShowCompareView] = useState(false);
+  const [quoteSubmitted, setQuoteSubmitted] = useState(false);
+  const [history, setHistory] = useState<AssessmentHistoryEntry[]>([]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(ASSESSMENT_STORAGE_KEY);
+      if (stored) {
+        const parsed: AssessmentHistoryEntry[] = JSON.parse(stored);
+        setHistory(parsed.slice(0, 3));
+      }
+    } catch {
+      // localStorage unavailable
+    }
+  }, []);
 
   const totalMonthly = assessment.recommendations.reduce((sum, rec) => {
     const premium = parseFloat(rec.monthlyPremium.replace('$', ''));
     return sum + (isNaN(premium) ? 0 : premium);
   }, 0);
 
-  const estimatedAnnualSavings = Math.round(totalMonthly * 12 * 0.15);
+  const gapCount = assessment.coverageGapCount ?? 1;
+  const savingsRate = gapCount >= 3 ? 0.18 : gapCount >= 1 ? 0.12 : 0.08;
+  const estimatedAnnualSavings = Math.round(totalMonthly * 12 * savingsRate);
   const coverageTypes = assessment.recommendations.map((r) => typeLabels[r.type]);
 
   const handleDownloadReport = useCallback(() => {
@@ -247,7 +266,7 @@ export function CoverageRecommendations({
   }, [assessment]);
 
   const riskFactorData = [
-    { label: 'Age Factor', value: assessment.score > 50 ? 15 : 5, maxValue: 20, color: '#ef4444' },
+    { label: 'Age Factor', value: assessment.score > 50 ? 15 : 5, maxValue: 20, color: '#0ea5e9' },
     { label: 'Health Profile', value: assessment.factors.includes('Existing health conditions') ? 15 : 5, maxValue: 20, color: '#f97316' },
     { label: 'Asset Protection', value: (assessment.factors.includes('Home ownership') ? 5 : 0) + (assessment.factors.includes('Vehicle ownership') ? 5 : 0), maxValue: 15, color: '#eab308' },
     { label: 'Dependency Risk', value: assessment.factors.includes('Dependents to protect') ? 10 : 3, maxValue: 15, color: '#3b82f6' },
@@ -337,6 +356,45 @@ export function CoverageRecommendations({
           </div>
         </div>
 
+        {/* Previous Assessments History */}
+        {history.length > 0 && (
+          <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '350ms' }}>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Previous Assessments</h3>
+            <div className="space-y-3">
+              {history.map((entry) => (
+                <button
+                  key={entry.id}
+                  type="button"
+                  className="w-full text-left card hover:border-primary-200 border border-transparent transition-all"
+                  onClick={() => {
+                    onRestore?.(entry.assessment);
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {new Date(entry.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Risk Score: {entry.assessment.score}/100 &middot; {entry.assessment.recommendations.length} recommendations
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold text-primary-500">
+                        ${entry.totalMonthlyPremium.toFixed(0)}/mo
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Summary Cards */}
         <div className="grid sm:grid-cols-3 gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
           <div className="card bg-primary-50 border border-primary-100 text-center">
@@ -404,52 +462,106 @@ export function CoverageRecommendations({
       {/* Quote Modal */}
       <Modal
         isOpen={showQuoteModal}
-        onClose={() => setShowQuoteModal(false)}
+        onClose={() => { setShowQuoteModal(false); setQuoteSubmitted(false); }}
         title="Connect with Insurance Providers"
       >
         <div className="space-y-4">
-          <p className="text-gray-600">
-            In a full implementation, this would connect you with licensed insurance providers
-            who can offer quotes based on your risk profile.
-          </p>
-          <div className="bg-primary-50 border border-primary-100 rounded-lg p-4">
-            <h4 className="font-semibold text-primary-700 mb-2">Your Summary</h4>
-            <ul className="text-sm text-primary-600 space-y-1">
-              <li>Risk Score: {assessment.score}/100 ({assessment.level})</li>
-              <li>Recommended Coverages: {assessment.recommendations.length}</li>
-              <li>Estimated Monthly: ${totalMonthly.toFixed(0)}</li>
-            </ul>
-          </div>
-          <div className="space-y-3">
-            <div>
-              <label htmlFor="quote-email" className="label">Email Address</label>
-              <input
-                type="email"
-                id="quote-email"
-                className="input"
-                placeholder="your@email.com"
-              />
+          {quoteSubmitted ? (
+            <div className="text-center py-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Quote Request Submitted</h3>
+              <p className="text-gray-600">
+                A licensed insurance provider will reach out to you within 24 hours with
+                personalized quotes based on your risk profile.
+              </p>
+              <button
+                type="button"
+                className="btn btn-secondary mt-6"
+                onClick={() => { setShowQuoteModal(false); setQuoteSubmitted(false); }}
+              >
+                Close
+              </button>
             </div>
-            <div>
-              <label htmlFor="quote-phone" className="label">Phone Number (Optional)</label>
-              <input
-                type="tel"
-                id="quote-phone"
-                className="input"
-                placeholder="(555) 123-4567"
-              />
-            </div>
-          </div>
-          <button
-            type="button"
-            className="btn btn-primary w-full"
-            onClick={() => setShowQuoteModal(false)}
-          >
-            Request Quotes
-          </button>
-          <p className="text-xs text-gray-400 text-center">
-            By submitting, you agree to be contacted by licensed insurance providers.
-          </p>
+          ) : (
+            <>
+              <p className="text-gray-600">
+                Submit your contact information to receive personalized quotes from
+                licensed insurance providers based on your risk profile.
+              </p>
+              <div className="bg-primary-50 border border-primary-100 rounded-lg p-4">
+                <h4 className="font-semibold text-primary-700 mb-2">Your Summary</h4>
+                <ul className="text-sm text-primary-600 space-y-1">
+                  <li>Risk Score: {assessment.score}/100 ({assessment.level})</li>
+                  <li>Recommended Coverages: {assessment.recommendations.length}</li>
+                  <li>Estimated Monthly: ${totalMonthly.toFixed(0)}</li>
+                </ul>
+              </div>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const email = formData.get('quote-email') as string;
+                  const phone = formData.get('quote-phone') as string;
+                  if (!email?.trim()) return;
+
+                  const quoteRequest = {
+                    email: email.trim(),
+                    phone: phone?.trim() || null,
+                    riskScore: assessment.score,
+                    riskLevel: assessment.level,
+                    recommendationCount: assessment.recommendations.length,
+                    estimatedMonthly: totalMonthly,
+                    submittedAt: new Date().toISOString(),
+                  };
+
+                  try {
+                    const existing = JSON.parse(localStorage.getItem('riskbrief-quote-requests') || '[]');
+                    existing.push(quoteRequest);
+                    localStorage.setItem('riskbrief-quote-requests', JSON.stringify(existing));
+                  } catch {
+                    // localStorage unavailable
+                  }
+                  setQuoteSubmitted(true);
+                }}
+                className="space-y-3"
+              >
+                <div>
+                  <label htmlFor="quote-email" className="label">Email Address</label>
+                  <input
+                    type="email"
+                    id="quote-email"
+                    name="quote-email"
+                    className="input"
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="quote-phone" className="label">Phone Number (Optional)</label>
+                  <input
+                    type="tel"
+                    id="quote-phone"
+                    name="quote-phone"
+                    className="input"
+                    placeholder="(555) 123-4567"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full"
+                >
+                  Request Quotes
+                </button>
+              </form>
+              <p className="text-xs text-gray-400 text-center">
+                By submitting, you agree to be contacted by licensed insurance providers.
+              </p>
+            </>
+          )}
         </div>
       </Modal>
     </section>

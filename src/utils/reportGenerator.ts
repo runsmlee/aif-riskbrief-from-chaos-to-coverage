@@ -6,7 +6,10 @@ export function generateReportHTML(assessment: RiskAssessment): string {
     return sum + (isNaN(premium) ? 0 : premium);
   }, 0);
 
-  const estimatedAnnualSavings = Math.round(totalMonthly * 12 * 0.15);
+  // Dynamic savings based on coverage gap count
+  const gapCount = assessment.coverageGapCount ?? 1;
+  const savingsRate = gapCount >= 3 ? 0.18 : gapCount >= 1 ? 0.12 : 0.08;
+  const estimatedAnnualSavings = Math.round(totalMonthly * 12 * savingsRate);
 
   const recommendationsHTML = assessment.recommendations
     .map(
@@ -28,7 +31,7 @@ export function generateReportHTML(assessment: RiskAssessment): string {
         </div>
         <div>
           <p style="margin: 0; font-size: 12px; color: #9ca3af;">Monthly Premium</p>
-          <p style="margin: 2px 0 0 0; font-size: 18px; font-weight: 600; color: #ef4444;">${rec.monthlyPremium}</p>
+          <p style="margin: 2px 0 0 0; font-size: 18px; font-weight: 600; color: #0ea5e9;">${rec.monthlyPremium}</p>
         </div>
       </div>
       <div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px;">
@@ -42,7 +45,7 @@ export function generateReportHTML(assessment: RiskAssessment): string {
     .map(
       (f) =>
         `<li style="padding: 4px 0; display: flex; align-items: center; gap: 8px;">
-        <span style="width: 8px; height: 8px; background: #ef4444; border-radius: 50%; display: inline-block;"></span>
+        <span style="width: 8px; height: 8px; background: #0ea5e9; border-radius: 50%; display: inline-block;"></span>
         <span style="color: #4b5563; font-size: 14px;">${f}</span>
       </li>`
     )
@@ -70,9 +73,9 @@ export function generateReportHTML(assessment: RiskAssessment): string {
   </style>
 </head>
 <body>
-  <div style="text-align: center; border-bottom: 2px solid #ef4444; padding-bottom: 24px; margin-bottom: 32px;">
+  <div style="text-align: center; border-bottom: 2px solid #0ea5e9; padding-bottom: 24px; margin-bottom: 32px;">
     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
-      <div style="width: 32px; height: 32px; background: #ef4444; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <div style="width: 32px; height: 32px; background: #0ea5e9; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
         <span style="color: white; font-weight: bold; font-size: 16px;">R</span>
       </div>
       <span style="font-size: 24px; font-weight: bold; color: #111827;">RiskBrief</span>
@@ -126,7 +129,7 @@ export function generateReportHTML(assessment: RiskAssessment): string {
   </div>
 
   <div class="no-print" style="text-align: center; margin-top: 24px;">
-    <button onclick="window.print()" style="background: #ef4444; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+    <button onclick="window.print()" style="background: #0ea5e9; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
       Print Report
     </button>
   </div>

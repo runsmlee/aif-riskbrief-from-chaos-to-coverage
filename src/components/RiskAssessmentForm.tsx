@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import type { ReactElement } from 'react';
-import type { UserProfile, FormStep, CoverageRecommendation, RiskAssessment } from '../types';
+import type { UserProfile, FormStep, CoverageRecommendation, RiskAssessment, AssessmentHistoryEntry } from '../types';
+import { ASSESSMENT_STORAGE_KEY } from '../types';
 
 interface RiskAssessmentFormProps {
   onComplete: (assessment: RiskAssessment) => void;
@@ -14,13 +15,40 @@ const incomeRanges = [
   { value: '150000+', label: 'Over $150,000' },
 ];
 
+function roundToNearest5(value: number): number {
+  return Math.round(value / 5) * 5;
+}
+
+function getIncomeBracketHomeValue(income: string): number {
+  if (income === '0-50000') return 200000;
+  if (income === '50000-100000') return 350000;
+  if (income === '100000-150000') return 500000;
+  return 750000; // 150000+
+}
+
+function getIncomeBracketHomeCoverage(income: string): number {
+  if (income === '0-50000') return 250000;
+  if (income === '50000-100000') return 350000;
+  if (income === '100000-150000') return 500000;
+  return 750000; // 150000+
+}
+
 function generateRecommendations(profile: UserProfile): CoverageRecommendation[] {
   const recommendations: CoverageRecommendation[] = [];
 
+  // Life Insurance
   if (profile.hasDependents || profile.age < 55) {
     const baseAmount = profile.annualIncome === '150000+' ? 1000000 :
       profile.annualIncome === '100000-150000' ? 750000 :
       profile.annualIncome === '50000-100000' ? 500000 : 250000;
+
+    const ageMultiplier = profile.age < 35 ? 0.8 :
+      profile.age < 45 ? 1.0 :
+      profile.age < 55 ? 1.3 : 1.6;
+    const healthMultiplier = profile.hasHealthConditions ? 1.4 : 1.0;
+
+    const rawLifePremium = (baseAmount / 1000) * ageMultiplier * healthMultiplier;
+    const lifePremium = roundToNearest5(rawLifePremium);
 
     recommendations.push({
       id: 'life-1',
@@ -28,11 +56,20 @@ function generateRecommendations(profile: UserProfile): CoverageRecommendation[]
       title: 'Term Life Insurance',
       description: 'Protect your loved ones with comprehensive life coverage.',
       coverageAmount: `$${(baseAmount / 1000).toFixed(0)}K`,
-      monthlyPremium: `$${Math.round(baseAmount / 10000 + profile.age * 0.5)}`,
+      monthlyPremium: `$${lifePremium}`,
       priority: profile.hasDependents ? 'high' : 'medium',
       benefits: ['Death benefit payout', 'Level premiums', 'Convertible to permanent', 'Accelerated death benefit'],
     });
   }
+
+  // Health Insurance — base $200, scaled by age, health conditions, income tier
+  const ageOver30 = Math.max(0, profile.age - 30);
+  const healthBase = 200 + (ageOver30 * 5);
+  const healthIncomeAdjust = profile.annualIncome === '0-50000' ? 50 :
+    profile.annualIncome === '50000-100000' ? 20 : 0;
+  const smokingAdjust = profile.smokingStatus === 'current' ? 80 :
+    profile.smokingStatus === 'former' ? 30 : 0;
+  const healthPremium = roundToNearest5(healthBase + (profile.hasHealthConditions ? 120 : 0) + healthIncomeAdjust + smokingAdjust);
 
   recommendations.push({
     id: 'health-1',
@@ -40,47 +77,64 @@ function generateRecommendations(profile: UserProfile): CoverageRecommendation[]
     title: 'Health Insurance',
     description: 'Comprehensive health coverage for medical expenses.',
     coverageAmount: '$250K',
-    monthlyPremium: profile.hasHealthConditions ? '$350' : '$250',
+    monthlyPremium: `$${healthPremium}`,
     priority: 'high',
     benefits: ['Hospital coverage', 'Prescription drugs', 'Preventive care', 'Mental health services'],
   });
 
+  // Auto Insurance — base $75, age and health adjustments
   if (profile.ownsVehicle) {
+    const autoPremium = roundToNearest5(
+      75 +
+      (profile.age < 25 || profile.age > 70 ? 20 : 0) +
+      (profile.hasHealthConditions ? 15 : 0)
+    );
+
     recommendations.push({
       id: 'auto-1',
       type: 'auto',
       title: 'Auto Insurance',
       description: 'Full coverage auto insurance to protect you on the road.',
       coverageAmount: '$100K/$300K',
-      monthlyPremium: '$85',
+      monthlyPremium: `$${autoPremium}`,
       priority: 'high',
       benefits: ['Liability coverage', 'Collision coverage', 'Comprehensive coverage', 'Roadside assistance'],
     });
   }
 
+  // Homeowners Insurance — base $80 + homeValue * 0.0004, coverage scales with income
   if (profile.ownsHome) {
+    const homeValue = getIncomeBracketHomeValue(profile.annualIncome);
+    const homeCoverage = getIncomeBracketHomeCoverage(profile.annualIncome);
+    const homePremium = roundToNearest5(80 + homeValue * 0.0004);
+
     recommendations.push({
       id: 'home-1',
       type: 'home',
       title: 'Homeowners Insurance',
       description: 'Protect your home and belongings from unexpected events.',
-      coverageAmount: '$400K',
-      monthlyPremium: '$120',
+      coverageAmount: `$${(homeCoverage / 1000).toFixed(0)}K`,
+      monthlyPremium: `$${homePremium}`,
       priority: 'high',
       benefits: ['Dwelling coverage', 'Personal property', 'Liability protection', 'Additional living expenses'],
     });
   }
 
+  // Disability Insurance — base depends on occupation type
   if (profile.occupation.toLowerCase().includes('construction') ||
       profile.occupation.toLowerCase().includes('manual') ||
       profile.hasHealthConditions) {
+    const isManual = profile.occupation.toLowerCase().includes('construction') ||
+      profile.occupation.toLowerCase().includes('manual');
+    const disabilityPremium = isManual ? 150 : 100;
+
     recommendations.push({
       id: 'disability-1',
       type: 'disability',
       title: 'Disability Insurance',
       description: 'Income protection if you cannot work due to illness or injury.',
       coverageAmount: '60% of income',
-      monthlyPremium: '$95',
+      monthlyPremium: `$${disabilityPremium}`,
       priority: 'high',
       benefits: ['Short-term coverage', 'Long-term coverage', 'Own occupation definition', 'Non-cancelable'],
     });
@@ -89,15 +143,57 @@ function generateRecommendations(profile: UserProfile): CoverageRecommendation[]
   return recommendations;
 }
 
+function calculateCoverageGaps(profile: UserProfile): number {
+  let gaps = 0;
+  if (profile.ownsVehicle) gaps += 1;
+  if (profile.ownsHome) gaps += 1;
+  if (profile.hasDependents) gaps += 1;
+  if (profile.hasHealthConditions) gaps += 1;
+  return gaps;
+}
+
+function saveAssessmentHistory(
+  profile: UserProfile,
+  assessment: RiskAssessment
+): void {
+  try {
+    const totalMonthly = assessment.recommendations.reduce((sum, rec) => {
+      const premium = parseFloat(rec.monthlyPremium.replace('$', ''));
+      return sum + (isNaN(premium) ? 0 : premium);
+    }, 0);
+
+    const entry: AssessmentHistoryEntry = {
+      id: crypto.randomUUID(),
+      date: new Date().toISOString(),
+      profile: { ...profile },
+      assessment: { ...assessment },
+      totalMonthlyPremium: totalMonthly,
+    };
+
+    const existing = localStorage.getItem(ASSESSMENT_STORAGE_KEY);
+    const history: AssessmentHistoryEntry[] = existing ? JSON.parse(existing) : [];
+    history.unshift(entry);
+    // Keep only the last 3 entries per PRD §4.2
+    const trimmed = history.slice(0, 3);
+    localStorage.setItem(ASSESSMENT_STORAGE_KEY, JSON.stringify(trimmed));
+  } catch {
+    // localStorage unavailable — silently skip
+  }
+}
+
 function calculateRiskScore(profile: UserProfile): number {
   let score = 50;
 
   if (profile.age > 50) score += 10;
   if (profile.age > 65) score += 10;
   if (profile.hasHealthConditions) score += 15;
+  if (profile.smokingStatus === 'current') score += 12;
+  else if (profile.smokingStatus === 'former') score += 5;
   if (profile.hasDependents) score += 5;
   if (!profile.ownsHome && profile.age > 30) score -= 5;
   if (!profile.ownsVehicle && profile.age > 25) score -= 5;
+  if (profile.currentCoverageStatus === 'none') score += 8;
+  else if (profile.currentCoverageStatus === 'partial') score += 3;
 
   return Math.min(100, Math.max(0, score));
 }
@@ -188,29 +284,38 @@ export function RiskAssessmentForm({ onComplete, className = '' }: RiskAssessmen
         age: Number(profile.age) || 30,
         occupation: profile.occupation || 'Not specified',
         hasHealthConditions: profile.hasHealthConditions || false,
+        smokingStatus: profile.smokingStatus || 'never',
         ownsHome: profile.ownsHome || false,
         ownsVehicle: profile.ownsVehicle || false,
         hasDependents: profile.hasDependents || false,
         annualIncome: profile.annualIncome || '0-50000',
+        currentCoverageStatus: profile.currentCoverageStatus || 'none',
       };
 
       const score = calculateRiskScore(completeProfile);
       const recommendations = generateRecommendations(completeProfile);
       const factors: string[] = [];
+      const coverageGapCount = calculateCoverageGaps(completeProfile);
 
       if (completeProfile.hasHealthConditions) factors.push('Existing health conditions');
+      if (completeProfile.smokingStatus === 'current') factors.push('Current smoker');
+      else if (completeProfile.smokingStatus === 'former') factors.push('Former smoker');
       if (completeProfile.hasDependents) factors.push('Dependents to protect');
       if (completeProfile.ownsHome) factors.push('Home ownership');
       if (completeProfile.ownsVehicle) factors.push('Vehicle ownership');
       if (completeProfile.age > 50) factors.push('Age consideration');
+      if (completeProfile.currentCoverageStatus === 'none') factors.push('No existing coverage');
+      else if (completeProfile.currentCoverageStatus === 'partial') factors.push('Partial coverage gaps');
 
       const assessment: RiskAssessment = {
         score,
         level: getRiskLevel(score),
         factors,
         recommendations,
+        coverageGapCount,
       };
 
+      saveAssessmentHistory(completeProfile, assessment);
       onComplete(assessment);
       setCurrentStep('results');
     }
@@ -342,6 +447,25 @@ export function RiskAssessmentForm({ onComplete, className = '' }: RiskAssessmen
                   </label>
                 </div>
 
+                <div>
+                  <label htmlFor="smokingStatus" className="label">
+                    Smoking Status <span className="text-primary-500">*</span>
+                  </label>
+                  <select
+                    id="smokingStatus"
+                    name="smokingStatus"
+                    value={profile.smokingStatus ?? ''}
+                    onChange={handleInputChange}
+                    className="input"
+                    required
+                  >
+                    <option value="">Select smoking status</option>
+                    <option value="never">Never smoked</option>
+                    <option value="former">Former smoker</option>
+                    <option value="current">Current smoker</option>
+                  </select>
+                </div>
+
                 <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
                   <input
                     type="checkbox"
@@ -393,6 +517,25 @@ export function RiskAssessmentForm({ onComplete, className = '' }: RiskAssessmen
                 <label htmlFor="ownsVehicle" className="text-gray-700 cursor-pointer">
                   I own a vehicle
                 </label>
+              </div>
+
+              <div>
+                <label htmlFor="currentCoverageStatus" className="label">
+                  Current Insurance Coverage <span className="text-primary-500">*</span>
+                </label>
+                <select
+                  id="currentCoverageStatus"
+                  name="currentCoverageStatus"
+                  value={profile.currentCoverageStatus ?? ''}
+                  onChange={handleInputChange}
+                  className="input"
+                  required
+                >
+                  <option value="">Select coverage status</option>
+                  <option value="none">No current coverage</option>
+                  <option value="partial">Partially covered</option>
+                  <option value="comprehensive">Comprehensively covered</option>
+                </select>
               </div>
             </div>
 

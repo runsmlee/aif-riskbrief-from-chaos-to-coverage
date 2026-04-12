@@ -28,6 +28,7 @@ const mockAssessment: RiskAssessment = {
       benefits: ['Hospital coverage', 'Prescription drugs'],
     },
   ],
+  coverageGapCount: 1,
 };
 
 describe('generateReportHTML', () => {
@@ -90,8 +91,9 @@ describe('generateReportHTML', () => {
 
   it('includes annual savings estimate', () => {
     const html = generateReportHTML(mockAssessment);
-    // Total monthly = $65 + $250 = $315; annual savings = round(315 * 12 * 0.15) = round(567) = $567
-    expect(html).toContain('$567');
+    // Total monthly = $65 + $250 = $315; coverageGapCount = 1 → savingsRate = 0.12
+    // annual savings = round(315 * 12 * 0.12) = round(453.6) = $454
+    expect(html).toContain('$454');
   });
 
   it('includes total monthly premium', () => {
@@ -109,6 +111,36 @@ describe('generateReportHTML', () => {
     expect(html).toContain('72/100');
     // Should not have "Key Risk Factors" section when empty
     expect(html).not.toContain('Key Risk Factors');
+  });
+
+  it('uses 18% savings rate when coverage gaps >= 3', () => {
+    const highGapAssessment: RiskAssessment = {
+      ...mockAssessment,
+      coverageGapCount: 3,
+    };
+    const html = generateReportHTML(highGapAssessment);
+    // Total monthly = $315; 315 * 12 * 0.18 = round(680.4) = $680
+    expect(html).toContain('$680');
+  });
+
+  it('uses 12% savings rate when coverage gaps = 1-2', () => {
+    const medGapAssessment: RiskAssessment = {
+      ...mockAssessment,
+      coverageGapCount: 2,
+    };
+    const html = generateReportHTML(medGapAssessment);
+    // Total monthly = $315; 315 * 12 * 0.12 = round(453.6) = $454
+    expect(html).toContain('$454');
+  });
+
+  it('uses 8% savings rate when coverage gaps = 0', () => {
+    const noGapAssessment: RiskAssessment = {
+      ...mockAssessment,
+      coverageGapCount: 0,
+    };
+    const html = generateReportHTML(noGapAssessment);
+    // Total monthly = $315; 315 * 12 * 0.08 = round(302.4) = $302
+    expect(html).toContain('$302');
   });
 
   it('includes print styles', () => {

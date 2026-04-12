@@ -36,7 +36,9 @@ export function Footer({ className = '' }: FooterProps): ReactElement {
             </p>
             <div className="flex gap-3 mt-6">
               <a
-                href="#"
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
                 aria-label="Twitter"
               >
@@ -45,7 +47,9 @@ export function Footer({ className = '' }: FooterProps): ReactElement {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
                 aria-label="LinkedIn"
               >
@@ -54,7 +58,9 @@ export function Footer({ className = '' }: FooterProps): ReactElement {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
                 aria-label="Facebook"
               >
@@ -84,9 +90,16 @@ export function Footer({ className = '' }: FooterProps): ReactElement {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <button
+                  type="button"
+                  className="hover:text-white transition-colors text-sm text-left"
+                  onClick={() => {
+                    const el = document.getElementById('assessment');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
                   Pricing
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -95,22 +108,22 @@ export function Footer({ className = '' }: FooterProps): ReactElement {
             <h3 className="text-white font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#features" className="hover:text-white transition-colors text-sm">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#how-it-works" className="hover:text-white transition-colors text-sm">
                   Careers
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#testimonials" className="hover:text-white transition-colors text-sm">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#faq" className="hover:text-white transition-colors text-sm">
                   Contact
                 </a>
               </li>
@@ -121,22 +134,22 @@ export function Footer({ className = '' }: FooterProps): ReactElement {
             <h3 className="text-white font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#privacy" className="hover:text-white transition-colors text-sm">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#terms" className="hover:text-white transition-colors text-sm">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#cookies" className="hover:text-white transition-colors text-sm">
                   Cookie Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors text-sm">
+                <a href="#disclaimer" className="hover:text-white transition-colors text-sm">
                   Disclaimer
                 </a>
               </li>

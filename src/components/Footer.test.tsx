@@ -48,11 +48,13 @@ describe('Footer', () => {
     expect(html).toContain('Disclaimer');
   });
 
-  it('renders social media links', () => {
+  it('renders social media links with external attributes', () => {
     const html = renderToString(createElement(Footer));
     expect(html).toContain('aria-label="Twitter"');
     expect(html).toContain('aria-label="LinkedIn"');
     expect(html).toContain('aria-label="Facebook"');
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
   });
 
   it('renders the disclaimer notice', () => {
@@ -71,5 +73,29 @@ describe('Footer', () => {
       createElement(Footer, { className: 'custom-class' })
     );
     expect(html).toContain('custom-class');
+  });
+
+  it('Company links have dedicated anchor destinations', () => {
+    const html = renderToString(createElement(Footer));
+    // About Us → #features (brand section)
+    expect(html).toContain('href="#features"');
+    expect(html).toContain('>About Us<');
+    // Careers → #how-it-works
+    expect(html).toContain('href="#how-it-works"');
+    expect(html).toContain('>Careers<');
+    // Blog → #testimonials
+    expect(html).toContain('href="#testimonials"');
+    expect(html).toContain('>Blog<');
+    // Contact → #faq
+    expect(html).toContain('href="#faq"');
+    expect(html).toContain('>Contact<');
+  });
+
+  it('Legal links have dedicated anchor destinations', () => {
+    const html = renderToString(createElement(Footer));
+    expect(html).toContain('href="#privacy"');
+    expect(html).toContain('href="#terms"');
+    expect(html).toContain('href="#cookies"');
+    expect(html).toContain('href="#disclaimer"');
   });
 });
