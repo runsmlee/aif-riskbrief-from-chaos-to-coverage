@@ -4,7 +4,7 @@ import { renderToString } from 'react-dom/server';
 import { RiskBreakdownChart } from './RiskBreakdownChart';
 
 const mockFactors = [
-  { label: 'Age Factor', value: 15, maxValue: 20, color: '#0ea5e9' },
+  { label: 'Age Factor', value: 15, maxValue: 20, color: '#ef4444' },
   { label: 'Health Profile', value: 10, maxValue: 20, color: '#f97316' },
   { label: 'Asset Protection', value: 8, maxValue: 15, color: '#eab308' },
 ];
@@ -52,7 +52,7 @@ describe('RiskBreakdownChart', () => {
     const html = renderToString(
       createElement(RiskBreakdownChart, { factors: mockFactors })
     );
-    expect(html).toContain('#0ea5e9');
+    expect(html).toContain('#ef4444');
     expect(html).toContain('#f97316');
     expect(html).toContain('#eab308');
   });

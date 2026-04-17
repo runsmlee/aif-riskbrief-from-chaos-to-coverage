@@ -48,9 +48,9 @@ expect(html).toContain('value');
 ```
 
 ### Color Assertions
-- Brand colors use Tailwind classes (`text-primary-500`, `bg-primary-50`) or hex values (`#0ea5e9`)
+- Brand colors use Tailwind classes (`text-primary-500`, `bg-primary-50`) or hex values (`#ef4444`)
 - Semantic colors use their own palette (red for errors/danger, green for success, yellow for warnings)
-- The risk score gauge uses `#0ea5e9` (brand), `#eab308` (yellow), `#22c55e` (green)
+- The risk score gauge uses `#ef4444` (brand), `#eab308` (yellow), `#22c55e` (green)
 - Risk level badge uses semantic colors (`bg-red-100 text-red-700` for high risk)
 
 ### Accessibility Checks

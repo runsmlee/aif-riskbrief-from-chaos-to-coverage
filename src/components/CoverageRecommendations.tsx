@@ -266,7 +266,7 @@ export function CoverageRecommendations({
   }, [assessment]);
 
   const riskFactorData = [
-    { label: 'Age Factor', value: assessment.score > 50 ? 15 : 5, maxValue: 20, color: '#0ea5e9' },
+    { label: 'Age Factor', value: assessment.score > 50 ? 15 : 5, maxValue: 20, color: '#ef4444' },
     { label: 'Health Profile', value: assessment.factors.includes('Existing health conditions') ? 15 : 5, maxValue: 20, color: '#f97316' },
     { label: 'Asset Protection', value: (assessment.factors.includes('Home ownership') ? 5 : 0) + (assessment.factors.includes('Vehicle ownership') ? 5 : 0), maxValue: 15, color: '#eab308' },
     { label: 'Dependency Risk', value: assessment.factors.includes('Dependents to protect') ? 10 : 3, maxValue: 15, color: '#3b82f6' },
