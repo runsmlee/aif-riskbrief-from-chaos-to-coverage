@@ -1,15 +1,11 @@
 import type { RiskAssessment } from '../types';
+import { calculateTotalMonthly, calculateAnnualSavings } from './premiumCalculator';
 
 export function generateReportHTML(assessment: RiskAssessment): string {
-  const totalMonthly = assessment.recommendations.reduce((sum, rec) => {
-    const premium = parseFloat(rec.monthlyPremium.replace('$', ''));
-    return sum + (isNaN(premium) ? 0 : premium);
-  }, 0);
+  const totalMonthly = calculateTotalMonthly(assessment.recommendations);
 
   // Dynamic savings based on coverage gap count
-  const gapCount = assessment.coverageGapCount ?? 1;
-  const savingsRate = gapCount >= 3 ? 0.18 : gapCount >= 1 ? 0.12 : 0.08;
-  const estimatedAnnualSavings = Math.round(totalMonthly * 12 * savingsRate);
+  const estimatedAnnualSavings = calculateAnnualSavings(totalMonthly, assessment.coverageGapCount ?? 1);
 
   const recommendationsHTML = assessment.recommendations
     .map(

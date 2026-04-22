@@ -33,7 +33,7 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
           {/* Left column - Text */}
           <div className="text-center lg:text-left">
             <div
@@ -117,7 +117,7 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
           {/* Right column - Visual card */}
           <div
             ref={vizRef}
-            className={`hidden lg:block relative transition-all duration-700 ease-out ${
+            className={`hidden md:block relative transition-all duration-700 ease-out ${
               vizVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
             }`}
           >

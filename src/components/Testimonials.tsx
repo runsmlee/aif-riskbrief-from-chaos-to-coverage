@@ -115,13 +115,13 @@ export function Testimonials({ className = '' }: TestimonialsProps): ReactElemen
           ))}
         </div>
 
-        <div className="flex justify-center gap-2 mt-8" role="tablist" aria-label="Testimonial navigation">
+        <div className="flex justify-center gap-2 mt-8" aria-label="Testimonial navigation">
           {testimonials.map((_, index) => (
             <button
               key={index}
               type="button"
-              role="tab"
-              aria-selected={activeIndex === index}
+              
+              aria-pressed={activeIndex === index}
               aria-label={`View testimonial ${index + 1}`}
               className={`w-3 h-3 rounded-full transition-all duration-200 ${
                 activeIndex === index

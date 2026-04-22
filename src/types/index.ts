@@ -6,6 +6,14 @@ export interface RiskFactor {
   category: 'lifestyle' | 'health' | 'occupation' | 'assets';
 }
 
+/** Risk factor data point for chart visualization */
+export interface ChartRiskFactor {
+  label: string;
+  value: number;
+  maxValue: number;
+  color: string;
+}
+
 export interface UserProfile {
   age: number;
   occupation: string;

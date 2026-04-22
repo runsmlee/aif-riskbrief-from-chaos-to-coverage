@@ -1,1 +1,0 @@
-var e=`riskbrief-assessments`;export{e as t};

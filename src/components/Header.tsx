@@ -140,7 +140,7 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
           className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
             mobileMenuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
           }`}
-          role="menu"
+          aria-label="Mobile navigation"
           aria-hidden={!mobileMenuOpen}
         >
           <div className="border-t border-gray-100 py-4">
@@ -148,7 +148,6 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
               <a
                 href="#features"
                 className="px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-gray-50 rounded-lg transition-colors font-medium"
-                role="menuitem"
                 onClick={closeMobileMenu}
               >
                 Features
@@ -156,7 +155,6 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
               <a
                 href="#how-it-works"
                 className="px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-gray-50 rounded-lg transition-colors font-medium"
-                role="menuitem"
                 onClick={closeMobileMenu}
               >
                 How It Works
@@ -164,7 +162,6 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
               <a
                 href="#testimonials"
                 className="px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-gray-50 rounded-lg transition-colors font-medium"
-                role="menuitem"
                 onClick={closeMobileMenu}
               >
                 Testimonials
@@ -172,7 +169,6 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
               <a
                 href="#faq"
                 className="px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-gray-50 rounded-lg transition-colors font-medium"
-                role="menuitem"
                 onClick={closeMobileMenu}
               >
                 FAQ
@@ -180,7 +176,6 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
               <a
                 href="#assessment"
                 className="btn btn-primary text-center mt-2"
-                role="menuitem"
                 onClick={closeMobileMenu}
               >
                 Get Started

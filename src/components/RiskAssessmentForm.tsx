@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 import type { ReactElement } from 'react';
 import type { UserProfile, FormStep, CoverageRecommendation, RiskAssessment, AssessmentHistoryEntry } from '../types';
 import { ASSESSMENT_STORAGE_KEY } from '../types';
+import { calculateTotalMonthly } from '../utils/premiumCalculator';
+import { safeGetItem, safeSetItem } from '../utils/storage';
 
 interface RiskAssessmentFormProps {
   onComplete: (assessment: RiskAssessment) => void;
@@ -157,10 +159,7 @@ function saveAssessmentHistory(
   assessment: RiskAssessment
 ): void {
   try {
-    const totalMonthly = assessment.recommendations.reduce((sum, rec) => {
-      const premium = parseFloat(rec.monthlyPremium.replace('$', ''));
-      return sum + (isNaN(premium) ? 0 : premium);
-    }, 0);
+    const totalMonthly = calculateTotalMonthly(assessment.recommendations);
 
     const entry: AssessmentHistoryEntry = {
       id: crypto.randomUUID(),
@@ -170,12 +169,11 @@ function saveAssessmentHistory(
       totalMonthlyPremium: totalMonthly,
     };
 
-    const existing = localStorage.getItem(ASSESSMENT_STORAGE_KEY);
-    const history: AssessmentHistoryEntry[] = existing ? JSON.parse(existing) : [];
+    const history = safeGetItem<AssessmentHistoryEntry[]>(ASSESSMENT_STORAGE_KEY, []);
     history.unshift(entry);
     // Keep only the last 3 entries per PRD §4.2
     const trimmed = history.slice(0, 3);
-    localStorage.setItem(ASSESSMENT_STORAGE_KEY, JSON.stringify(trimmed));
+    safeSetItem(ASSESSMENT_STORAGE_KEY, trimmed);
   } catch {
     // localStorage unavailable — silently skip
   }

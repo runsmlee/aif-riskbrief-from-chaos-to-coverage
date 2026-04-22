@@ -51,7 +51,7 @@ function FAQAccordionItem({
 }): ReactElement {
   return (
     <div className="border-b border-gray-200 last:border-b-0">
-      <h3>
+      <h3 id={item.id}>
         <button
           type="button"
           className="w-full flex items-center justify-between py-5 px-1 text-left font-semibold text-gray-900 hover:text-primary-500 transition-colors focus:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-primary-500"

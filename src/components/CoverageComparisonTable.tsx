@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 import type { CoverageRecommendation } from '../types';
+import { calculateTotalMonthly } from '../utils/premiumCalculator';
 
 interface CoverageComparisonTableProps {
   recommendations: CoverageRecommendation[];
@@ -72,12 +73,7 @@ export function CoverageComparisonTable({ recommendations, className = '' }: Cov
               Total Monthly
             </td>
             <td className="py-3 px-4 font-bold text-primary-500 tabular-nums">
-              ${recommendations
-                .reduce((sum, rec) => {
-                  const premium = parseFloat(rec.monthlyPremium.replace('$', ''));
-                  return sum + (isNaN(premium) ? 0 : premium);
-                }, 0)
-                .toFixed(0)}
+              ${calculateTotalMonthly(recommendations).toFixed(0)}
             </td>
             <td />
           </tr>

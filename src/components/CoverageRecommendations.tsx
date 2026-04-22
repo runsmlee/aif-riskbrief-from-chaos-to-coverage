@@ -6,6 +6,8 @@ import { Modal } from './Modal';
 import { RiskBreakdownChart } from './RiskBreakdownChart';
 import { CoverageComparisonTable } from './CoverageComparisonTable';
 import { downloadReport } from '../utils/reportGenerator';
+import { calculateTotalMonthly, calculateAnnualSavings } from '../utils/premiumCalculator';
+import { safeGetItem, safeSetItem } from '../utils/storage';
 
 interface CoverageRecommendationsProps {
   assessment: RiskAssessment;
@@ -240,25 +242,13 @@ export function CoverageRecommendations({
   const [history, setHistory] = useState<AssessmentHistoryEntry[]>([]);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(ASSESSMENT_STORAGE_KEY);
-      if (stored) {
-        const parsed: AssessmentHistoryEntry[] = JSON.parse(stored);
-        setHistory(parsed.slice(0, 3));
-      }
-    } catch {
-      // localStorage unavailable
-    }
+    const stored = safeGetItem<AssessmentHistoryEntry[]>(ASSESSMENT_STORAGE_KEY, []);
+    setHistory(stored.slice(0, 3));
   }, []);
 
-  const totalMonthly = assessment.recommendations.reduce((sum, rec) => {
-    const premium = parseFloat(rec.monthlyPremium.replace('$', ''));
-    return sum + (isNaN(premium) ? 0 : premium);
-  }, 0);
+  const totalMonthly = calculateTotalMonthly(assessment.recommendations);
 
-  const gapCount = assessment.coverageGapCount ?? 1;
-  const savingsRate = gapCount >= 3 ? 0.18 : gapCount >= 1 ? 0.12 : 0.08;
-  const estimatedAnnualSavings = Math.round(totalMonthly * 12 * savingsRate);
+  const estimatedAnnualSavings = calculateAnnualSavings(totalMonthly, assessment.coverageGapCount ?? 1);
   const coverageTypes = assessment.recommendations.map((r) => typeLabels[r.type]);
 
   const handleDownloadReport = useCallback(() => {
@@ -519,9 +509,9 @@ export function CoverageRecommendations({
                   };
 
                   try {
-                    const existing = JSON.parse(localStorage.getItem('riskbrief-quote-requests') || '[]');
+                    const existing = safeGetItem<Array<Record<string, unknown>>>('riskbrief-quote-requests', []);
                     existing.push(quoteRequest);
-                    localStorage.setItem('riskbrief-quote-requests', JSON.stringify(existing));
+                    safeSetItem('riskbrief-quote-requests', existing);
                   } catch {
                     // localStorage unavailable
                   }

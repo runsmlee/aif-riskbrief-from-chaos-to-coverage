@@ -1,19 +1,13 @@
 import { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
-
-interface RiskFactor {
-  label: string;
-  value: number;
-  maxValue: number;
-  color: string;
-}
+import type { ChartRiskFactor } from '../types';
 
 interface RiskBreakdownChartProps {
-  factors: RiskFactor[];
+  factors: ChartRiskFactor[];
   className?: string;
 }
 
-function RiskBar({ factor, delay }: { factor: RiskFactor; delay: number }): ReactElement {
+function RiskBar({ factor, delay }: { factor: ChartRiskFactor; delay: number }): ReactElement {
   const [width, setWidth] = useState(0);
   const percentage = Math.min((factor.value / factor.maxValue) * 100, 100);
 
