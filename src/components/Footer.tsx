@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import type { ReactElement } from 'react';
 
 interface FooterProps {
   className?: string;
 }
 
-export function Footer({ className = '' }: FooterProps): ReactElement {
+function FooterInner({ className = '' }: FooterProps): ReactElement {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -171,3 +172,5 @@ export function Footer({ className = '' }: FooterProps): ReactElement {
     </footer>
   );
 }
+
+export const Footer = memo(FooterInner);

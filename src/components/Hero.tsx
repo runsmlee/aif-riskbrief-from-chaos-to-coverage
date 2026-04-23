@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import type { ReactElement } from 'react';
 import { useScrollReveal } from '../hooks';
 
@@ -15,6 +15,13 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onStartAssessment();
+    }
+  }, [onStartAssessment]);
 
   return (
     <section

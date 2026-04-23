@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { ReactElement } from 'react';
 
 interface Testimonial {
@@ -57,9 +57,49 @@ interface TestimonialsProps {
 
 export function Testimonials({ className = '' }: TestimonialsProps): ReactElement {
   const [activeIndex, setActiveIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const goToSlide = useCallback((index: number) => {
     setActiveIndex(index);
+  }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setActiveIndex((index + 1) % testimonials.length);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setActiveIndex((index - 1 + testimonials.length) % testimonials.length);
+    }
+  }, []);
+
+  // Auto-rotate testimonials every 6 seconds
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
+  // Pause auto-rotation on hover/focus
+  const pauseAutoRotate = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  const resumeAutoRotate = useCallback(() => {
+    if (!intervalRef.current) {
+      intervalRef.current = setInterval(() => {
+        setActiveIndex((prev) => (prev + 1) % testimonials.length);
+      }, 6000);
+    }
   }, []);
 
   return (
@@ -81,7 +121,15 @@ export function Testimonials({ className = '' }: TestimonialsProps): ReactElemen
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div
+          className="grid md:grid-cols-3 gap-8"
+          onMouseEnter={pauseAutoRotate}
+          onMouseLeave={resumeAutoRotate}
+          onFocus={pauseAutoRotate}
+          onBlur={resumeAutoRotate}
+          role="group"
+          aria-label="Customer testimonials"
+        >
           {testimonials.map((testimonial, index) => (
             <blockquote
               key={testimonial.id}
@@ -92,6 +140,9 @@ export function Testimonials({ className = '' }: TestimonialsProps): ReactElemen
               }`}
               onMouseEnter={() => goToSlide(index)}
               onFocus={() => goToSlide(index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              tabIndex={0}
+              aria-label={`Testimonial from ${testimonial.name}`}
             >
               <StarRating rating={testimonial.rating} />
               <p className="mt-4 text-gray-600 italic leading-relaxed">
@@ -115,15 +166,15 @@ export function Testimonials({ className = '' }: TestimonialsProps): ReactElemen
           ))}
         </div>
 
-        <div className="flex justify-center gap-2 mt-8" aria-label="Testimonial navigation">
+        <div className="flex justify-center gap-2 mt-8" aria-label="Testimonial navigation" role="tablist">
           {testimonials.map((_, index) => (
             <button
               key={index}
               type="button"
-              
-              aria-pressed={activeIndex === index}
+              role="tab"
+              aria-selected={activeIndex === index}
               aria-label={`View testimonial ${index + 1}`}
-              className={`w-3 h-3 rounded-full transition-all duration-200 ${
+              className={`w-3 h-3 rounded-full transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 ${
                 activeIndex === index
                   ? 'bg-primary-500 w-8'
                   : 'bg-gray-300 hover:bg-gray-400'

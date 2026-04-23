@@ -2,6 +2,15 @@ import { useState, useCallback, lazy, Suspense, Component } from 'react';
 import type { ReactElement, ErrorInfo } from 'react';
 import { Header, Hero } from './components';
 import type { RiskAssessment } from './types';
+import {
+  StatsSkeleton,
+  FeaturesSkeleton,
+  HowItWorksSkeleton,
+  TestimonialsSkeleton,
+  FAQSkeleton,
+  AssessmentSkeleton,
+  RecommendationsSkeleton,
+} from './components/SkeletonLoader';
 
 const Features = lazy(() =>
   import('./components/Features').then((m) => ({ default: m.Features }))
@@ -30,33 +39,23 @@ const CoverageRecommendations = lazy(() =>
   }))
 );
 
-function LoadingSpinner(): ReactElement {
-  return (
-    <div className="flex items-center justify-center py-24" role="status" aria-label="Loading">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 border-3 border-primary-200 border-t-primary-500 rounded-full animate-spin" />
-        <p className="text-gray-500 text-sm font-medium">Loading...</p>
-      </div>
-    </div>
-  );
-}
-
 interface ErrorBoundaryProps {
   children: React.ReactNode;
 }
 
 interface ErrorBoundaryState {
   hasError: boolean;
+  error: Error | null;
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
@@ -94,8 +93,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 function App(): ReactElement {
   const [showAssessment, setShowAssessment] = useState(false);
   const [assessment, setAssessment] = useState<RiskAssessment | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleStartAssessment = useCallback(() => {
+    setIsTransitioning(true);
     setShowAssessment(true);
     setAssessment(null);
 
@@ -104,18 +105,30 @@ function App(): ReactElement {
       if (assessmentSection) {
         assessmentSection.scrollIntoView({ behavior: 'smooth' });
       }
+      setIsTransitioning(false);
     }, 100);
   }, []);
 
   const handleAssessmentComplete = useCallback((result: RiskAssessment) => {
-    setAssessment(result);
-    setShowAssessment(false);
+    setIsTransitioning(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      setAssessment(result);
+      setShowAssessment(false);
+      setIsTransitioning(false);
+    }, 300);
   }, []);
 
   const handleReset = useCallback(() => {
-    setAssessment(null);
-    setShowAssessment(false);
+    setIsTransitioning(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      setAssessment(null);
+      setShowAssessment(false);
+      setIsTransitioning(false);
+    }, 300);
   }, []);
 
   return (
@@ -124,41 +137,46 @@ function App(): ReactElement {
         Skip to main content
       </a>
       <Header />
-      <main id="main-content" className="flex-1">
+      <main
+        id="main-content"
+        className={`flex-1 transition-opacity duration-300 ${
+          isTransitioning ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
         <ErrorBoundary>
           {!assessment ? (
             <>
               <Hero onStartAssessment={handleStartAssessment} />
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<><StatsSkeleton /><section className="py-16 sm:py-24 bg-white relative overflow-hidden" aria-label="Loading" role="status"><div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"><div className="animate-pulse bg-gray-200 rounded h-10 w-1/2 mx-auto" aria-hidden="true" /><span className="sr-only">Loading CTA section...</span></div></section></>}>
                 <StatsAndCTA onStartAssessment={handleStartAssessment} />
               </Suspense>
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<FeaturesSkeleton />}>
                 <Features />
               </Suspense>
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<HowItWorksSkeleton />}>
                 <HowItWorks />
               </Suspense>
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<TestimonialsSkeleton />}>
                 <Testimonials />
               </Suspense>
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<FAQSkeleton />}>
                 <FAQ />
               </Suspense>
               {showAssessment && (
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense fallback={<AssessmentSkeleton />}>
                   <RiskAssessmentForm onComplete={handleAssessmentComplete} />
                 </Suspense>
               )}
             </>
           ) : (
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<RecommendationsSkeleton />}>
               <CoverageRecommendations assessment={assessment} onReset={handleReset} onRestore={handleAssessmentComplete} />
             </Suspense>
           )}
         </ErrorBoundary>
       </main>
       <ErrorBoundary>
-        <Suspense fallback={<div className="h-48" />}>
+        <Suspense fallback={<div className="h-64 bg-gray-900 animate-pulse" aria-hidden="true" />}>
           <Footer />
         </Suspense>
       </ErrorBoundary>

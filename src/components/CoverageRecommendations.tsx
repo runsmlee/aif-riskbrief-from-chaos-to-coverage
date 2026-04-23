@@ -96,7 +96,14 @@ function RiskScoreGauge({ score, level }: { score: number; level: string }): Rea
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-36 h-36">
+      <div
+        className="relative w-36 h-36"
+        role="meter"
+        aria-valuenow={animatedScore}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`Risk score: ${animatedScore} out of 100, ${level} risk level`}
+      >
         <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
           <circle
             className="text-gray-200"

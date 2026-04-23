@@ -18,6 +18,15 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
     setMobileMenuOpen(false);
   }, []);
 
+  // Close mobile menu on hash navigation
+  useEffect(() => {
+    function handleHashChange(): void {
+      setMobileMenuOpen(false);
+    }
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   useEffect(() => {
     function handleScroll(): void {
       setIsScrolled(window.scrollY > 10);

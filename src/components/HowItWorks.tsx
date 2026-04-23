@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { ReactElement } from 'react';
 import { useScrollReveal } from '../hooks';
 
@@ -55,7 +56,7 @@ interface HowItWorksProps {
   className?: string;
 }
 
-export function HowItWorks({ className = '' }: HowItWorksProps): ReactElement {
+function HowItWorksInner({ className = '' }: HowItWorksProps): ReactElement {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.15 });
 
   return (
@@ -115,3 +116,5 @@ export function HowItWorks({ className = '' }: HowItWorksProps): ReactElement {
     </section>
   );
 }
+
+export const HowItWorks = memo(HowItWorksInner);

@@ -33,7 +33,10 @@ function AnimatedStat({ stat, isActive }: { stat: StatItem; isActive: boolean })
 
   return (
     <div className="text-center">
-      <p className="text-3xl sm:text-4xl font-bold text-white tabular-nums">
+      <p
+        className="text-3xl sm:text-4xl font-bold text-white tabular-nums"
+        aria-label={stat.value}
+      >
         {formatValue()}
       </p>
       <p className="mt-1 text-sm text-primary-100">
