@@ -104,12 +104,13 @@ function FeaturesInner({ className = '' }: FeaturesProps): ReactElement {
           {features.map((feature) => (
             <article
               key={feature.title}
-              className="card group hover:border-primary-200 border border-transparent cursor-default"
+              className="card card-elevated group hover:border-primary-200 border border-transparent cursor-default"
+              tabIndex={0}
             >
-              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-500 mb-4 group-hover:bg-primary-500 group-hover:text-white transition-colors duration-300">
+              <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-500 mb-4 group-hover:bg-primary-500 group-hover:text-white group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary-200 transition-all duration-300">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
                 {feature.title}
               </h3>
               <p className="text-gray-600 leading-relaxed">

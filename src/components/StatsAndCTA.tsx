@@ -56,7 +56,7 @@ export function StatsAndCTA({ onStartAssessment, className = '' }: StatsAndCTAPr
 
   return (
     <>
-      <section className={`py-12 bg-primary-500 ${className}`} aria-label="Platform statistics">
+      <section className={`py-12 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 ${className}`} aria-label="Platform statistics">
         <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat) => (

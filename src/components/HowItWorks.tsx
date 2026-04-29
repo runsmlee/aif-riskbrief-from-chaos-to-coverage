@@ -99,7 +99,7 @@ function HowItWorksInner({ className = '' }: HowItWorksProps): ReactElement {
                 }`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
-                <div className="relative z-10 w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto text-white text-2xl font-bold shadow-lg shadow-primary-200">
+                <div className="relative z-10 w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto text-white text-2xl font-bold shadow-lg shadow-primary-200 ring-4 ring-white">
                   {step.number}
                 </div>
                 <h3 className="mt-6 text-xl font-semibold text-gray-900">

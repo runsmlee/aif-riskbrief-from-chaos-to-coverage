@@ -7,7 +7,7 @@ interface SkeletonBlockProps {
 function SkeletonBlock({ className = '' }: SkeletonBlockProps): ReactElement {
   return (
     <div
-      className={`animate-pulse bg-gray-200 rounded ${className}`}
+      className={`animate-shimmer bg-gray-200 rounded ${className}`}
       aria-hidden="true"
     />
   );

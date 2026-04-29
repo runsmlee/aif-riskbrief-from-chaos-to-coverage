@@ -48,8 +48,8 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 border border-primary-200 rounded-full text-sm text-primary-700 font-medium mb-6">
-                <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" aria-hidden="true" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm text-primary-700 font-medium mb-6 shadow-sm">
+                <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse-dot" aria-hidden="true" />
                 Free Risk Assessment Tool
               </div>
 
@@ -130,9 +130,12 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
           >
             <div className="relative w-full aspect-square max-w-lg mx-auto">
               {/* Decorative rotated background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-100 to-primary-200 rounded-3xl transform rotate-3" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-100 to-primary-200 rounded-3xl transform rotate-3 shadow-lg" />
+              {/* Decorative dots pattern */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-200/40 rounded-full blur-xl" aria-hidden="true" />
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-primary-300/30 rounded-full blur-xl" aria-hidden="true" />
               {/* Main card */}
-              <div className="absolute inset-0 bg-white rounded-3xl shadow-2xl p-8">
+              <div className="absolute inset-0 bg-white rounded-3xl shadow-2xl p-8 border border-gray-100/50">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">

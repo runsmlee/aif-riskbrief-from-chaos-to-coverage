@@ -14,7 +14,7 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center shadow-lg shadow-primary-500/20">
                 <svg
                   className="w-5 h-5 text-white"
                   fill="none"
@@ -32,7 +32,7 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
               </div>
               <span className="text-xl font-bold text-white">RiskBrief</span>
             </div>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-400">
               From Chaos to Coverage. Making insurance decisions simple and informed.
             </p>
             <div className="flex gap-3 mt-6">
@@ -40,7 +40,7 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
                 href="https://x.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
+                className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 hover:shadow-lg hover:shadow-primary-500/20 transition-all duration-200"
                 aria-label="Twitter"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -51,7 +51,7 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
+                className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 hover:shadow-lg hover:shadow-primary-500/20 transition-all duration-200"
                 aria-label="LinkedIn"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -62,7 +62,7 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
+                className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary-500 hover:shadow-lg hover:shadow-primary-500/20 transition-all duration-200"
                 aria-label="Facebook"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -73,32 +73,36 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Product</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Product</h3>
+            <ul className="space-y-3">
               <li>
-                <a href="#features" className="hover:text-white transition-colors text-sm">
+                <a href="#features" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Features
                 </a>
               </li>
               <li>
-                <a href="#how-it-works" className="hover:text-white transition-colors text-sm">
+                <a href="#how-it-works" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   How It Works
                 </a>
               </li>
               <li>
-                <a href="#assessment" className="hover:text-white transition-colors text-sm">
+                <a href="#assessment" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Risk Assessment
                 </a>
               </li>
               <li>
                 <button
                   type="button"
-                  className="hover:text-white transition-colors text-sm text-left"
+                  className="hover:text-white transition-colors text-sm text-left inline-flex items-center gap-2 group"
                   onClick={() => {
                     const el = document.getElementById('assessment');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Pricing
                 </button>
               </li>
@@ -106,25 +110,29 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Company</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Company</h3>
+            <ul className="space-y-3">
               <li>
-                <a href="#features" className="hover:text-white transition-colors text-sm">
+                <a href="#features" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#how-it-works" className="hover:text-white transition-colors text-sm">
+                <a href="#how-it-works" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Careers
                 </a>
               </li>
               <li>
-                <a href="#testimonials" className="hover:text-white transition-colors text-sm">
+                <a href="#testimonials" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#faq" className="hover:text-white transition-colors text-sm">
+                <a href="#faq" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Contact
                 </a>
               </li>
@@ -132,25 +140,29 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Legal</h3>
-            <ul className="space-y-2">
+            <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Legal</h3>
+            <ul className="space-y-3">
               <li>
-                <a href="#privacy" className="hover:text-white transition-colors text-sm">
+                <a href="#privacy" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#terms" className="hover:text-white transition-colors text-sm">
+                <a href="#terms" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#cookies" className="hover:text-white transition-colors text-sm">
+                <a href="#cookies" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Cookie Policy
                 </a>
               </li>
               <li>
-                <a href="#disclaimer" className="hover:text-white transition-colors text-sm">
+                <a href="#disclaimer" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Disclaimer
                 </a>
               </li>
@@ -160,10 +172,10 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
 
         <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm">
+            <p className="text-sm text-gray-400">
               &copy; {currentYear} RiskBrief. All rights reserved.
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 max-w-md text-center sm:text-right">
               Insurance recommendations are for informational purposes only. Consult a licensed professional for specific advice.
             </p>
           </div>

@@ -133,10 +133,10 @@ export function Testimonials({ className = '' }: TestimonialsProps): ReactElemen
           {testimonials.map((testimonial, index) => (
             <blockquote
               key={testimonial.id}
-              className={`card transition-all duration-300 ${
+              className={`card card-elevated transition-all duration-300 ${
                 activeIndex === index
-                  ? 'ring-2 ring-primary-500 shadow-lg'
-                  : 'hover:shadow-lg'
+                  ? 'ring-2 ring-primary-500 shadow-lg border-primary-200'
+                  : 'hover:shadow-lg border border-transparent'
               }`}
               onMouseEnter={() => goToSlide(index)}
               onFocus={() => goToSlide(index)}
@@ -150,7 +150,7 @@ export function Testimonials({ className = '' }: TestimonialsProps): ReactElemen
               </p>
               <footer className="mt-6 flex items-center gap-3">
                 <div
-                  className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-500 font-semibold text-sm"
+                  className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-semibold text-sm shadow-sm"
                   aria-hidden="true"
                 >
                   {testimonial.name.split(' ').map((n) => n[0]).join('')}

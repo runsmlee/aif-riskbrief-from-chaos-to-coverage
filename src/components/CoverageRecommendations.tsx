@@ -156,7 +156,7 @@ function RecommendationCard({
 
   return (
     <article
-      className="card hover:border-primary-200 border border-transparent animate-fade-in-up"
+      className="card card-elevated hover:border-primary-200 border border-transparent animate-fade-in-up"
       style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'both' }}
     >
       <div className="flex items-start gap-4">
@@ -174,7 +174,7 @@ function RecommendationCard({
               </p>
             </div>
             <span
-              className={`px-2 py-1 rounded text-xs font-semibold flex-shrink-0 ${
+              className={`px-2 py-1 rounded-full text-xs font-semibold flex-shrink-0 ${
                 priorityColors[recommendation.priority]
               }`}
             >
@@ -186,13 +186,13 @@ function RecommendationCard({
           <div className="mt-4 flex flex-wrap gap-6">
             <div>
               <p className="text-xs text-gray-500">Coverage Amount</p>
-              <p className="text-lg font-semibold text-gray-900">
+              <p className="text-lg font-semibold text-gray-900 tabular-nums">
                 {recommendation.coverageAmount}
               </p>
             </div>
             <div>
               <p className="text-xs text-gray-500">Monthly Premium</p>
-              <p className="text-lg font-semibold text-primary-500">
+              <p className="text-lg font-semibold text-primary-500 tabular-nums">
                 {recommendation.monthlyPremium}
               </p>
             </div>
@@ -201,7 +201,7 @@ function RecommendationCard({
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="mt-3 text-sm text-primary-500 hover:text-primary-600 font-medium flex items-center gap-1 transition-colors"
+            className="mt-3 text-sm text-primary-500 hover:text-primary-600 font-medium flex items-center gap-1 transition-colors focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2 rounded-sm"
             aria-expanded={isExpanded}
           >
             {isExpanded ? 'Hide' : 'View'} key benefits
@@ -224,7 +224,7 @@ function RecommendationCard({
               {recommendation.benefits.map((benefit, bIndex) => (
                 <span
                   key={bIndex}
-                  className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
+                  className="px-2.5 py-1 bg-primary-50 text-primary-700 text-xs rounded-full font-medium"
                 >
                   {benefit}
                 </span>
@@ -394,22 +394,22 @@ export function CoverageRecommendations({
 
         {/* Summary Cards */}
         <div className="grid sm:grid-cols-3 gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-          <div className="card bg-primary-50 border border-primary-100 text-center">
+          <div className="card bg-primary-50 border border-primary-100 text-center card-elevated">
             <p className="text-sm text-primary-600 font-medium">Monthly Total</p>
-            <p className="text-2xl font-bold text-primary-600 mt-1">${totalMonthly.toFixed(0)}</p>
+            <p className="text-2xl font-bold text-primary-600 mt-1 tabular-nums">${totalMonthly.toFixed(0)}</p>
           </div>
-          <div className="card bg-green-50 border border-green-100 text-center">
+          <div className="card bg-green-50 border border-green-100 text-center card-elevated">
             <p className="text-sm text-green-600 font-medium">Estimated Annual Savings</p>
-            <p className="text-2xl font-bold text-green-600 mt-1">${estimatedAnnualSavings}</p>
+            <p className="text-2xl font-bold text-green-600 mt-1 tabular-nums">${estimatedAnnualSavings}</p>
           </div>
-          <div className="card bg-blue-50 border border-blue-100 text-center">
+          <div className="card bg-blue-50 border border-blue-100 text-center card-elevated">
             <p className="text-sm text-blue-600 font-medium">Coverage Types</p>
             <p className="text-sm font-semibold text-blue-600 mt-1">{coverageTypes.join(' \u2022 ')}</p>
           </div>
         </div>
 
         {/* Total Premium Summary */}
-        <div className="card bg-gradient-to-r from-primary-500 to-primary-600 border-0">
+        <div className="card bg-gradient-to-r from-primary-500 to-primary-600 border-0 shadow-lg shadow-primary-200">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <h3 className="text-lg font-semibold text-white">
@@ -432,26 +432,32 @@ export function CoverageRecommendations({
           <button
             type="button"
             onClick={onReset}
-            className="btn btn-secondary"
+            className="btn btn-secondary group"
           >
+            <svg className="w-4 h-4 mr-2 transition-transform group-hover:-rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
             Start New Assessment
           </button>
           <button
             type="button"
             onClick={handleDownloadReport}
-            className="btn bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all"
+            className="btn bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:border-gray-400 hover:shadow-md transition-all group"
           >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-5 h-5 mr-2 transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             Download Report
           </button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary group"
             onClick={() => setShowQuoteModal(true)}
           >
             Get Quotes
+            <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
           </button>
         </div>
       </div>

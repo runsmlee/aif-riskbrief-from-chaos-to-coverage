@@ -77,7 +77,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps): ReactEl
       {/* Modal content */}
       <div
         ref={modalRef}
-        className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-scale-in"
+        className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto animate-scale-in border border-gray-100"
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 id="modal-title" className="text-xl font-bold text-gray-900">
@@ -86,10 +86,10 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps): ReactEl
           <button
             type="button"
             onClick={onClose}
-            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-50 hover:text-red-500 text-gray-400 transition-colors focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
             aria-label="Close dialog"
           >
-            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>

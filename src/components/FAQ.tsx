@@ -54,7 +54,7 @@ function FAQAccordionItem({
       <h3 id={item.id}>
         <button
           type="button"
-          className="w-full flex items-center justify-between py-5 px-1 text-left font-semibold text-gray-900 hover:text-primary-500 transition-colors focus:outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-primary-500"
+          className="w-full flex items-center justify-between py-5 px-4 -mx-4 rounded-lg text-left font-semibold text-gray-900 hover:text-primary-500 hover:bg-primary-50/50 transition-all duration-200 focus:outline-none focus-visible:rounded-lg focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
           aria-expanded={isOpen}
           aria-controls={`${item.id}-panel`}
           onClick={onToggle}
@@ -81,7 +81,7 @@ function FAQAccordionItem({
           isOpen ? 'max-h-96 pb-5' : 'max-h-0'
         }`}
       >
-        <p className="px-1 text-gray-600 leading-relaxed">
+        <p className="px-4 text-gray-600 leading-relaxed">
           {item.answer}
         </p>
       </div>
