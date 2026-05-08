@@ -139,6 +139,7 @@ function App(): ReactElement {
       <Header />
       <main
         id="main-content"
+        tabIndex={-1}
         className={`flex-1 transition-opacity duration-300 ${
           isTransitioning ? 'opacity-0' : 'opacity-100'
         }`}

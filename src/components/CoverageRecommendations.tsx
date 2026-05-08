@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { ReactElement } from 'react';
 import type { RiskAssessment, CoverageRecommendation, AssessmentHistoryEntry } from '../types';
 import { ASSESSMENT_STORAGE_KEY } from '../types';
@@ -262,13 +262,13 @@ export function CoverageRecommendations({
     downloadReport(assessment);
   }, [assessment]);
 
-  const riskFactorData = [
+  const riskFactorData = useMemo(() => [
     { label: 'Age Factor', value: assessment.score > 50 ? 15 : 5, maxValue: 20, color: '#ef4444' },
     { label: 'Health Profile', value: assessment.factors.includes('Existing health conditions') ? 15 : 5, maxValue: 20, color: '#f97316' },
     { label: 'Asset Protection', value: (assessment.factors.includes('Home ownership') ? 5 : 0) + (assessment.factors.includes('Vehicle ownership') ? 5 : 0), maxValue: 15, color: '#eab308' },
     { label: 'Dependency Risk', value: assessment.factors.includes('Dependents to protect') ? 10 : 3, maxValue: 15, color: '#3b82f6' },
     { label: 'Overall Exposure', value: Math.round(assessment.score / 5), maxValue: 20, color: '#8b5cf6' },
-  ];
+  ], [assessment.score, assessment.factors]);
 
   return (
     <section

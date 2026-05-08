@@ -28,8 +28,15 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
   }, []);
 
   useEffect(() => {
+    let ticking = false;
     function handleScroll(): void {
-      setIsScrolled(window.scrollY > 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true });

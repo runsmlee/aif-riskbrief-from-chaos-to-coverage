@@ -1,11 +1,3 @@
-export interface RiskFactor {
-  id: string;
-  label: string;
-  description: string;
-  weight: number;
-  category: 'lifestyle' | 'health' | 'occupation' | 'assets';
-}
-
 /** Risk factor data point for chart visualization */
 export interface ChartRiskFactor {
   label: string;

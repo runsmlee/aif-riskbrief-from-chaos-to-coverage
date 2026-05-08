@@ -21,18 +21,15 @@ function roundToNearest5(value: number): number {
   return Math.round(value / 5) * 5;
 }
 
-function getIncomeBracketHomeValue(income: string): number {
-  if (income === '0-50000') return 200000;
-  if (income === '50000-100000') return 350000;
-  if (income === '100000-150000') return 500000;
-  return 750000; // 150000+
-}
+const incomeBracketHomeValues: Record<string, { value: number; coverage: number }> = {
+  '0-50000': { value: 200000, coverage: 250000 },
+  '50000-100000': { value: 350000, coverage: 350000 },
+  '100000-150000': { value: 500000, coverage: 500000 },
+  '150000+': { value: 750000, coverage: 750000 },
+};
 
-function getIncomeBracketHomeCoverage(income: string): number {
-  if (income === '0-50000') return 250000;
-  if (income === '50000-100000') return 350000;
-  if (income === '100000-150000') return 500000;
-  return 750000; // 150000+
+function getIncomeBracketHome(income: string): { value: number; coverage: number } {
+  return incomeBracketHomeValues[income] ?? incomeBracketHomeValues['150000+'];
 }
 
 function generateRecommendations(profile: UserProfile): CoverageRecommendation[] {
@@ -106,8 +103,7 @@ function generateRecommendations(profile: UserProfile): CoverageRecommendation[]
 
   // Homeowners Insurance — base $80 + homeValue * 0.0004, coverage scales with income
   if (profile.ownsHome) {
-    const homeValue = getIncomeBracketHomeValue(profile.annualIncome);
-    const homeCoverage = getIncomeBracketHomeCoverage(profile.annualIncome);
+    const { value: homeValue, coverage: homeCoverage } = getIncomeBracketHome(profile.annualIncome);
     const homePremium = roundToNearest5(80 + homeValue * 0.0004);
 
     recommendations.push({
@@ -548,7 +544,7 @@ export function RiskAssessmentForm({ onComplete, className = '' }: RiskAssessmen
           </div>
         );
 
-      case 'results':
+      default:
         return <div />;
     }
   };
@@ -578,7 +574,7 @@ export function RiskAssessmentForm({ onComplete, className = '' }: RiskAssessmen
 
         <div className="card shadow-lg border border-gray-100">
           {/* Step progress indicator */}
-          <div className="mb-8" role="progressbar" aria-valuenow={currentStepIndex + 1} aria-valuemin={1} aria-valuemax={3}>
+          <div className="mb-8" role="progressbar" aria-valuenow={currentStepIndex + 1} aria-valuemin={1} aria-valuemax={3} aria-valuetext={`Step ${currentStepIndex + 1} of 3: ${stepLabels[currentStep as Exclude<FormStep, 'results'>]}`}>
             <div className="flex items-center justify-between mb-2">
               {stepKeys.map((step, index) => (
                 <div key={step} className="flex items-center">

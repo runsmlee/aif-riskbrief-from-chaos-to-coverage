@@ -77,6 +77,7 @@ function FAQAccordionItem({
         id={`${item.id}-panel`}
         role="region"
         aria-labelledby={item.id}
+        aria-hidden={!isOpen}
         className={`overflow-hidden transition-all duration-300 ${
           isOpen ? 'max-h-96 pb-5' : 'max-h-0'
         }`}

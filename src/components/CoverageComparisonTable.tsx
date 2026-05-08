@@ -1,12 +1,17 @@
 import { useState, useCallback, useMemo } from 'react';
 import type { ReactElement } from 'react';
 import type { CoverageRecommendation } from '../types';
-import { calculateTotalMonthly } from '../utils/premiumCalculator';
+import { calculateTotalMonthly, parsePremium } from '../utils/premiumCalculator';
 
 type SortColumn = 'title' | 'coverageAmount' | 'monthlyPremium' | 'priority';
 type SortDirection = 'asc' | 'desc';
 
 const priorityOrder: Record<string, number> = { high: 3, medium: 2, low: 1 };
+
+function parseCoverageValue(coverage: string): number {
+  const match = coverage.match(/\$(\d+)/);
+  return match ? parseInt(match[1], 10) : 0;
+}
 
 interface CoverageComparisonTableProps {
   recommendations: CoverageRecommendation[];
@@ -28,16 +33,6 @@ export function CoverageComparisonTable({ recommendations, className = '' }: Cov
     });
   }, []);
 
-  const parsePremiumValue = useCallback((premium: string): number => {
-    const value = parseFloat(premium.replace('$', ''));
-    return isNaN(value) ? 0 : value;
-  }, []);
-
-  const parseCoverageValue = useCallback((coverage: string): number => {
-    const match = coverage.match(/\$(\d+)/);
-    return match ? parseInt(match[1], 10) : 0;
-  }, []);
-
   const sortedRecommendations = useMemo(() => {
     const sorted = [...recommendations].sort((a, b) => {
       let comparison = 0;
@@ -49,7 +44,7 @@ export function CoverageComparisonTable({ recommendations, className = '' }: Cov
           comparison = parseCoverageValue(a.coverageAmount) - parseCoverageValue(b.coverageAmount);
           break;
         case 'monthlyPremium':
-          comparison = parsePremiumValue(a.monthlyPremium) - parsePremiumValue(b.monthlyPremium);
+          comparison = parsePremium(a.monthlyPremium) - parsePremium(b.monthlyPremium);
           break;
         case 'priority':
           comparison = (priorityOrder[a.priority] ?? 0) - (priorityOrder[b.priority] ?? 0);
@@ -58,7 +53,7 @@ export function CoverageComparisonTable({ recommendations, className = '' }: Cov
       return sortDirection === 'asc' ? comparison : -comparison;
     });
     return sorted;
-  }, [recommendations, sortColumn, sortDirection, parsePremiumValue, parseCoverageValue]);
+  }, [recommendations, sortColumn, sortDirection]);
 
   const SortIndicator = ({ column }: { column: SortColumn }): ReactElement => {
     const isActive = sortColumn === column;
