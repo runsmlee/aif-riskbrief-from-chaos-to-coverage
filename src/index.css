@@ -556,3 +556,261 @@ select.input {
   background-color: rgba(239, 68, 68, 0.15);
   color: #1f2937;
 }
+
+/* =============================================
+   DARK MODE SUPPORT
+   Uses CSS custom properties for seamless toggling.
+   Respects prefers-color-scheme by default.
+   Manual toggle overrides via [data-theme="dark"] on <html>.
+   ============================================= */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --dm-bg: #0f172a;
+    --dm-surface: #1e293b;
+    --dm-surface-alt: #334155;
+    --dm-text: #f1f5f9;
+    --dm-text-secondary: #94a3b8;
+    --dm-text-muted: #64748b;
+    --dm-border: #334155;
+    --dm-input-bg: #1e293b;
+    --dm-input-border: #475569;
+    --dm-card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    --dm-card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  }
+
+  :root:not([data-theme="light"]) body {
+    background-color: var(--dm-bg);
+    color: var(--dm-text);
+  }
+
+  :root:not([data-theme="light"]) .card {
+    background-color: var(--dm-surface);
+    border-color: var(--dm-border);
+    box-shadow: var(--dm-card-shadow);
+    color: var(--dm-text);
+  }
+
+  :root:not([data-theme="light"]) .card:hover {
+    box-shadow: var(--dm-card-hover-shadow);
+  }
+
+  :root:not([data-theme="light"]) .input {
+    background-color: var(--dm-input-bg);
+    border-color: var(--dm-input-border);
+    color: var(--dm-text);
+  }
+
+  :root:not([data-theme="light"]) .input::placeholder {
+    color: var(--dm-text-muted);
+  }
+
+  :root:not([data-theme="light"]) .btn-secondary {
+    background-color: var(--dm-surface);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  :root:not([data-theme="light"]) .btn-secondary:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+
+  :root:not([data-theme="light"]) .badge {
+    border-color: var(--dm-border);
+  }
+}
+
+/* Manual dark mode override */
+[data-theme="dark"] {
+  --dm-bg: #0f172a;
+  --dm-surface: #1e293b;
+  --dm-surface-alt: #334155;
+  --dm-text: #f1f5f9;
+  --dm-text-secondary: #94a3b8;
+  --dm-text-muted: #64748b;
+  --dm-border: #334155;
+  --dm-input-bg: #1e293b;
+  --dm-input-border: #475569;
+  --dm-card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --dm-card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] body {
+  background-color: var(--dm-bg);
+  color: var(--dm-text);
+}
+
+[data-theme="dark"] .card {
+  background-color: var(--dm-surface);
+  border-color: var(--dm-border);
+  box-shadow: var(--dm-card-shadow);
+  color: var(--dm-text);
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: var(--dm-card-hover-shadow);
+}
+
+[data-theme="dark"] .input {
+  background-color: var(--dm-input-bg);
+  border-color: var(--dm-input-border);
+  color: var(--dm-text);
+}
+
+[data-theme="dark"] .input::placeholder {
+  color: var(--dm-text-muted);
+}
+
+[data-theme="dark"] .btn-secondary {
+  background-color: var(--dm-surface);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* =============================================
+   BACK TO TOP BUTTON
+   ============================================= */
+@keyframes fade-in-up-sm {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 40;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  transition: all 0.2s ease-out;
+  animation: fade-in-up-sm 0.3s ease-out forwards;
+}
+
+.back-to-top:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+}
+
+.back-to-top:active {
+  transform: translateY(0);
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* =============================================
+   TOAST NOTIFICATIONS
+   ============================================= */
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+  max-width: 90vw;
+  width: 400px;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.75rem;
+  background: white;
+  color: #1f2937;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  animation: toast-slide-in 0.3s ease-out forwards;
+  border-left: 4px solid;
+  min-height: 48px;
+}
+
+.toast-success {
+  border-left-color: #22c55e;
+}
+
+.toast-info {
+  border-left-color: #3b82f6;
+}
+
+.toast-error {
+  border-left-color: #ef4444;
+}
+
+.toast-exit {
+  animation: toast-slide-out 0.3s ease-in forwards;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.toast-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.toast-close:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}

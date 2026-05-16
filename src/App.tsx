@@ -1,6 +1,8 @@
 import { useState, useCallback, lazy, Suspense, Component } from 'react';
 import type { ReactElement, ErrorInfo } from 'react';
-import { Header, Hero } from './components';
+import { Header } from './components';
+import { BackToTop } from './components/BackToTop';
+import { ToastProvider, useToast } from './components/Toast';
 import type { RiskAssessment } from './types';
 import {
   StatsSkeleton,
@@ -12,6 +14,9 @@ import {
   RecommendationsSkeleton,
 } from './components/SkeletonLoader';
 
+const Hero = lazy(() =>
+  import('./components/Hero').then((m) => ({ default: m.Hero }))
+);
 const Features = lazy(() =>
   import('./components/Features').then((m) => ({ default: m.Features }))
 );
@@ -90,10 +95,11 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 }
 
-function App(): ReactElement {
+function AppInner(): ReactElement {
   const [showAssessment, setShowAssessment] = useState(false);
   const [assessment, setAssessment] = useState<RiskAssessment | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const { addToast } = useToast();
 
   const handleStartAssessment = useCallback(() => {
     setIsTransitioning(true);
@@ -117,8 +123,9 @@ function App(): ReactElement {
       setAssessment(result);
       setShowAssessment(false);
       setIsTransitioning(false);
+      addToast('Assessment complete! Review your personalized recommendations.', 'success');
     }, 300);
-  }, []);
+  }, [addToast]);
 
   const handleReset = useCallback(() => {
     setIsTransitioning(true);
@@ -147,7 +154,9 @@ function App(): ReactElement {
         <ErrorBoundary>
           {!assessment ? (
             <>
-              <Hero onStartAssessment={handleStartAssessment} />
+              <Suspense fallback={<section className="py-16 sm:py-24 lg:py-32 bg-gradient-to-br from-gray-50 via-white to-primary-50/30" aria-label="Loading hero" role="status"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div className="grid md:grid-cols-2 gap-12 items-center"><div className="space-y-6"><div className="animate-pulse bg-gray-200 rounded-full h-8 w-48" aria-hidden="true" /><div className="animate-pulse bg-gray-200 rounded h-14 w-3/4" aria-hidden="true" /><div className="animate-pulse bg-gray-200 rounded h-14 w-1/2" aria-hidden="true" /></div><div className="hidden md:block"><div className="animate-pulse bg-gray-200 rounded-3xl aspect-square max-w-lg mx-auto" aria-hidden="true" /></div></div></div><span className="sr-only">Loading hero section...</span></section>}>
+                <Hero onStartAssessment={handleStartAssessment} />
+              </Suspense>
               <Suspense fallback={<><StatsSkeleton /><section className="py-16 sm:py-24 bg-white relative overflow-hidden" aria-label="Loading" role="status"><div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"><div className="animate-pulse bg-gray-200 rounded h-10 w-1/2 mx-auto" aria-hidden="true" /><span className="sr-only">Loading CTA section...</span></div></section></>}>
                 <StatsAndCTA onStartAssessment={handleStartAssessment} />
               </Suspense>
@@ -181,7 +190,16 @@ function App(): ReactElement {
           <Footer />
         </Suspense>
       </ErrorBoundary>
+      <BackToTop />
     </div>
+  );
+}
+
+function App(): ReactElement {
+  return (
+    <ToastProvider>
+      <AppInner />
+    </ToastProvider>
   );
 }
 

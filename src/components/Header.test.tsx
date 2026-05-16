@@ -45,4 +45,9 @@ describe('Header', () => {
     const html = renderToString(createElement(Header));
     expect(html).toContain('id="mobile-menu"');
   });
+
+  it('renders dark mode toggle button', () => {
+    const html = renderToString(createElement(Header));
+    expect(html).toContain('Switch to dark mode');
+  });
 });

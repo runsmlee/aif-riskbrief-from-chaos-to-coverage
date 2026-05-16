@@ -4,6 +4,7 @@ import { renderToString } from 'react-dom/server';
 
 // Pre-import lazy components so they resolve in the module cache during SSR.
 // Without this, renderToString cannot resolve lazy() boundaries.
+import './components/Hero';
 import './components/Features';
 import './components/HowItWorks';
 import './components/StatsAndCTA';
@@ -79,5 +80,16 @@ describe('App', () => {
   it('renders privacy notice in footer', () => {
     const html = renderToString(createElement(App));
     expect(html).toContain('informational purposes only');
+  });
+
+  it('renders toast container for notifications', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('toast-container');
+    expect(html).toContain('aria-live="polite"');
+  });
+
+  it('renders dark mode toggle in header', () => {
+    const html = renderToString(createElement(App));
+    expect(html).toContain('Switch to dark mode');
   });
 });
