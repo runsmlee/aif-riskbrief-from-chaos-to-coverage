@@ -16,12 +16,15 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
     const stored = localStorage.getItem('riskbrief-theme');
     if (stored === 'dark') {
       setDarkMode(true);
+      // Already set by inline script, but ensure it's there
       document.documentElement.setAttribute('data-theme', 'dark');
     } else if (stored === 'light') {
       setDarkMode(false);
       document.documentElement.setAttribute('data-theme', 'light');
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setDarkMode(true);
+      // Apply for cases where inline script didn't run
+      document.documentElement.setAttribute('data-theme', 'dark');
     }
   }, []);
 

@@ -492,6 +492,22 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Smooth state transition for theme toggle */
+[data-theme] * {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
+}
+
+/* Override: don't transition layout-critical properties */
+[data-theme] .input,
+[data-theme] .btn,
+[data-theme] .card {
+  transition-property: background-color, border-color, color, box-shadow, transform;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
+}
+
 /* Improved select styling */
 select.input {
   appearance: none;
@@ -668,6 +684,76 @@ select.input {
 
 [data-theme="dark"] .btn-secondary:hover {
   background-color: rgba(239, 68, 68, 0.1);
+}
+
+[data-theme="dark"] .badge {
+  border-color: var(--dm-border);
+}
+
+/* Dark mode: text headings and labels */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4 {
+  color: var(--dm-text);
+}
+
+/* Dark mode: paragraphs and general text */
+[data-theme="dark"] p {
+  color: var(--dm-text-secondary);
+}
+
+/* Dark mode: links */
+[data-theme="dark"] a {
+  color: var(--dm-text);
+}
+
+/* Dark mode: toast notifications */
+[data-theme="dark"] .toast {
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
+  border-color: var(--dm-border);
+}
+
+/* Dark mode: skeleton loader shimmer */
+[data-theme="dark"] .animate-shimmer {
+  background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+  background-size: 200% 100%;
+}
+
+/* Dark mode: header sticky */
+[data-theme="dark"] header {
+  background-color: rgba(15, 23, 42, 0.95);
+}
+
+/* Dark mode: FAQ accordion bg */
+[data-theme="dark"] section[aria-labelledby="faq-heading"] .bg-white {
+  background-color: var(--dm-surface);
+}
+
+/* Dark mode: modal */
+[data-theme="dark"] [role="dialog"] > div:last-child {
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
+}
+
+/* Dark mode: table header */
+[data-theme="dark"] thead tr {
+  border-color: var(--dm-border);
+}
+
+/* Dark mode: score gauge background circle */
+[data-theme="dark"] .text-gray-200 circle {
+  color: var(--dm-surface-alt);
+}
+
+/* Smooth transition for theme changes */
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* =============================================
