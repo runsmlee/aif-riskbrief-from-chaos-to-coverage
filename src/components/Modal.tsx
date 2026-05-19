@@ -47,14 +47,15 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps): ReactEl
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
       setTimeout(() => focusable?.focus(), 50);
+    } else if (previousFocusRef.current) {
+      // Modal just closed — restore focus to the previously focused element
+      previousFocusRef.current.focus();
+      previousFocusRef.current = null;
     }
 
     return () => {
       document.body.style.overflow = '';
       document.removeEventListener('keydown', handleKeyDown);
-      if (previousFocusRef.current && !isOpen) {
-        previousFocusRef.current.focus();
-      }
     };
   }, [isOpen, handleKeyDown]);
 
