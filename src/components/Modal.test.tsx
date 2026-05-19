@@ -64,6 +64,6 @@ describe('Modal', () => {
         children: createElement('p', null, 'Content'),
       })
     );
-    expect(html).toContain('bg-black/50');
+    expect(html).toContain('bg-slate-950/55');
   });
 });

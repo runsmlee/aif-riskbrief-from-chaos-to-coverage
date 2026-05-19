@@ -70,7 +70,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps): ReactEl
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
+        className="absolute inset-0 bg-slate-950/55 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -87,7 +87,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps): ReactEl
           <button
             type="button"
             onClick={onClose}
-            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-50 hover:text-red-500 text-gray-400 transition-colors focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+            className="w-10 h-10 rounded-full flex items-center justify-center text-red-700 hover:bg-red-50 hover:text-red-800 transition-colors focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
             aria-label="Close dialog"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
