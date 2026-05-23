@@ -1,4 +1,4 @@
-import { useState, useCallback, lazy, Suspense, Component } from 'react';
+import { useState, useCallback, lazy, Suspense, Component, useEffect } from 'react';
 import type { ReactElement, ErrorInfo } from 'react';
 import { Header } from './components';
 import { BackToTop } from './components/BackToTop';
@@ -65,6 +65,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error('ErrorBoundary caught:', error, errorInfo);
+    // Ensure the initial-loader is removed even when recovering from an error
+    try {
+      const loader = document.querySelector('.initial-loader');
+      if (loader) loader.remove();
+    } catch {
+      // Ignore DOM errors during error recovery
+    }
   }
 
   render(): React.ReactNode {
@@ -100,6 +107,16 @@ function AppInner(): ReactElement {
   const [assessment, setAssessment] = useState<RiskAssessment | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { addToast } = useToast();
+
+  // Remove the initial-loader from the DOM after React successfully mounts.
+  // This is a belt-and-suspenders approach alongside the CSS rule
+  // `#root:not(:empty) + .initial-loader { display: none }`.
+  useEffect(() => {
+    const loader = document.querySelector('.initial-loader');
+    if (loader) {
+      loader.remove();
+    }
+  }, []);
 
   const handleStartAssessment = useCallback(() => {
     setIsTransitioning(true);
@@ -197,9 +214,11 @@ function AppInner(): ReactElement {
 
 function App(): ReactElement {
   return (
-    <ToastProvider>
-      <AppInner />
-    </ToastProvider>
+    <ErrorBoundary>
+      <ToastProvider>
+        <AppInner />
+      </ToastProvider>
+    </ErrorBoundary>
   );
 }
 
