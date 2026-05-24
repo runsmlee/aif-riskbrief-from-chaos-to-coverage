@@ -53,9 +53,11 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 From Chaos to{' '}
                 <span className="gradient-text">Coverage</span>
               </h1>
-              <p className="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Navigate insurance with confidence. Get personalized coverage recommendations
-                based on your unique risk profile in minutes, not hours.
+              <p className="mt-4 text-xl sm:text-2xl font-semibold text-gray-800 max-w-2xl mx-auto lg:mx-0 leading-snug">
+                Personalized coverage recommendations based on your unique risk profile — in minutes.
+              </p>
+              <p className="mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Answer a few questions and get a clear, jargon-free breakdown of the insurance you actually need.
               </p>
             </div>
 
@@ -67,9 +69,9 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
               <button
                 type="button"
                 onClick={onStartAssessment}
-                className="btn btn-primary text-lg px-8 py-4 group"
+                className="btn btn-primary text-lg px-10 py-5 shadow-lg shadow-primary-500/30 group"
               >
-                Start Free Assessment
+                Get My Risk Brief
                 <svg
                   className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
                   fill="none"
@@ -97,7 +99,7 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Free Assessment</span>
+                <span>Free Risk Brief</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">

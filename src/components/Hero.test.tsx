@@ -12,17 +12,17 @@ describe('Hero', () => {
 
   it('renders the tagline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Navigate insurance with confidence');
+    expect(html).toContain('Personalized coverage recommendations');
   });
 
-  it('renders the Start Free Assessment button', () => {
+  it('renders the Get My Risk Brief button', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Start Free Assessment');
+    expect(html).toContain('Get My Risk Brief');
   });
 
   it('renders trust indicators', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Free Assessment');
+    expect(html).toContain('Free Risk Brief');
     expect(html).toContain('5-Minute Process');
     expect(html).toContain('Expert Insights');
   });

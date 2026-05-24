@@ -30,7 +30,7 @@ describe('App', () => {
 
   it('renders the start assessment button', () => {
     const html = renderToString(createElement(App));
-    expect(html).toContain('Start Free Assessment');
+    expect(html).toContain('Get My Risk Brief');
   });
 
   it('renders the features section', () => {
