@@ -50,14 +50,14 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 id="hero-heading"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
               >
-                From Chaos to{' '}
-                <span className="gradient-text">Coverage</span>
+                Your Insurance Coverage,{' '}
+                <span className="gradient-text">Personalized</span>
               </h1>
               <p className="mt-4 text-xl sm:text-2xl font-semibold text-gray-800 max-w-2xl mx-auto lg:mx-0 leading-snug">
-                Personalized coverage recommendations based on your unique risk profile — in minutes.
+                Get personalized coverage recommendations based on your unique risk profile — in minutes, not hours.
               </p>
               <p className="mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Answer a few questions and get a clear, jargon-free breakdown of the insurance you actually need.
+                Answer a few questions about your life, health, and assets. Get a clear, jargon-free breakdown of exactly what insurance you need — and what you don&apos;t.
               </p>
             </div>
 

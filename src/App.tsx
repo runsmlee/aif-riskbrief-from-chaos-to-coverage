@@ -68,7 +68,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     // Ensure the initial-loader is removed even when recovering from an error
     try {
       const loader = document.querySelector('.initial-loader');
-      if (loader) loader.remove();
+      if (loader) {
+        loader.classList.add('fade-out');
+        setTimeout(() => { loader.remove(); }, 300);
+      }
     } catch {
       // Ignore DOM errors during error recovery
     }
@@ -109,12 +112,13 @@ function AppInner(): ReactElement {
   const { addToast } = useToast();
 
   // Remove the initial-loader from the DOM after React successfully mounts.
-  // This is a belt-and-suspenders approach alongside the CSS rule
-  // `#root:not(:empty) + .initial-loader { display: none }`.
+  // Uses the CSS fade-out transition for a smooth handoff.
+  // Belt-and-suspenders with the CSS rule and inline MutationObserver fallback.
   useEffect(() => {
     const loader = document.querySelector('.initial-loader');
     if (loader) {
-      loader.remove();
+      loader.classList.add('fade-out');
+      setTimeout(() => { loader.remove(); }, 300);
     }
   }, []);
 

@@ -24,8 +24,8 @@ describe('App', () => {
 
   it('renders the hero section', () => {
     const html = renderToString(createElement(App));
-    expect(html).toContain('From Chaos to');
-    expect(html).toContain('Coverage');
+    expect(html).toContain('Your Insurance Coverage');
+    expect(html).toContain('Personalized');
   });
 
   it('renders the start assessment button', () => {

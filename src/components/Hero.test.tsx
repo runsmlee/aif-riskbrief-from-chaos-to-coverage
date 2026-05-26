@@ -6,13 +6,13 @@ import { Hero } from './Hero';
 describe('Hero', () => {
   it('renders the main headline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('From Chaos to');
-    expect(html).toContain('Coverage');
+    expect(html).toContain('Your Insurance Coverage');
+    expect(html).toContain('Personalized');
   });
 
   it('renders the tagline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Personalized coverage recommendations');
+    expect(html).toContain('personalized coverage recommendations');
   });
 
   it('renders the Get My Risk Brief button', () => {

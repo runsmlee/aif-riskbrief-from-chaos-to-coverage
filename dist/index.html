@@ -68,13 +68,31 @@
       /* Inline skeleton for instant perceived load */
       #root:not(:empty) + .initial-loader { display: none; }
       .initial-loader {
+        position: fixed;
+        inset: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
         font-family: system-ui, -apple-system, sans-serif;
         gap: 16px;
+        background: #fff;
+        z-index: 9999;
+        transition: opacity 0.3s ease-out;
+      }
+      @media (prefers-color-scheme: dark) {
+        html:not([data-theme="light"]) .initial-loader {
+          background: #0f172a;
+          color: #f1f5f9;
+        }
+      }
+      [data-theme="dark"] .initial-loader {
+        background: #0f172a;
+        color: #f1f5f9;
+      }
+      .initial-loader.fade-out {
+        opacity: 0;
+        pointer-events: none;
       }
       .initial-loader__spinner {
         width: 40px;
@@ -108,10 +126,10 @@
         } catch(e) {}
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-DEyC8key.js"></script>
+    <script type="module" crossorigin src="/assets/index-CNBZ4uWZ.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-D9-fqq9M.js">
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-C-dGysBs.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-BPPeuK51.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-CDtFVV-T.css">
   </head>
   <body>
     <div id="root"></div>
@@ -119,6 +137,31 @@
       <div class="initial-loader__spinner"></div>
       <p class="initial-loader__text">Loading RiskBrief...</p>
     </div>
+    <!-- Fallback: remove initial-loader after max wait even if React fails to mount -->
+    <script>
+      (function() {
+        function removeLoader() {
+          var loader = document.querySelector('.initial-loader');
+          if (loader) {
+            loader.classList.add('fade-out');
+            setTimeout(function() { loader.remove(); }, 300);
+          }
+        }
+        // Remove loader when #root gets content (MutationObserver for robustness)
+        var root = document.getElementById('root');
+        if (root) {
+          var observer = new MutationObserver(function() {
+            if (root.childNodes.length > 0) {
+              observer.disconnect();
+              removeLoader();
+            }
+          });
+          observer.observe(root, { childList: true });
+        }
+        // Hard fallback: remove after 8 seconds regardless
+        setTimeout(removeLoader, 8000);
+      })();
+    </script>
     <noscript>
       <div style="max-width:600px;margin:40px auto;padding:20px;text-align:center;font-family:system-ui,sans-serif;color:#1f2937;">
         <h1 style="font-size:24px;margin-bottom:16px;">RiskBrief — From Chaos to Coverage</h1>
