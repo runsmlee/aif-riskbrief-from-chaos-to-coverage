@@ -126,13 +126,19 @@
         } catch(e) {}
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-CNBZ4uWZ.js"></script>
+    <script type="module" crossorigin src="/assets/index-B5aeHhO-.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-D9-fqq9M.js">
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-C-dGysBs.js">
     <link rel="stylesheet" crossorigin href="/assets/index-CDtFVV-T.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div style="display:flex;align-items:center;justify-content:center;min-height:60vh;padding:40px 20px;font-family:system-ui,-apple-system,sans-serif;text-align:center">
+      <div>
+        <h1 style="font-size:28px;font-weight:700;color:#1f2937;margin:0 0 12px">RiskBrief</h1>
+        <p style="font-size:16px;color:#6b7280;margin:0 0 24px">Personalized insurance coverage recommendations based on your unique risk profile.</p>
+        <div style="display:inline-block;padding:12px 32px;background:#EF4444;color:#fff;border-radius:8px;font-size:16px;font-weight:600">Get My Risk Brief</div>
+      </div>
+    </div></div>
     <div class="initial-loader" aria-hidden="true">
       <div class="initial-loader__spinner"></div>
       <p class="initial-loader__text">Loading RiskBrief...</p>
@@ -158,8 +164,8 @@
           });
           observer.observe(root, { childList: true });
         }
-        // Hard fallback: remove after 8 seconds regardless
-        setTimeout(removeLoader, 8000);
+        // Hard fallback: remove after 3 seconds regardless
+        setTimeout(removeLoader, 3000);
       })();
     </script>
     <noscript>
