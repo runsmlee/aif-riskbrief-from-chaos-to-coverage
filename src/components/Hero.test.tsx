@@ -6,8 +6,8 @@ import { Hero } from './Hero';
 describe('Hero', () => {
   it('renders the main headline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Your Insurance Coverage');
-    expect(html).toContain('Personalized');
+    expect(html).toContain('Personalized Insurance');
+    expect(html).toContain('Coverage Recommendations');
   });
 
   it('renders the tagline', () => {

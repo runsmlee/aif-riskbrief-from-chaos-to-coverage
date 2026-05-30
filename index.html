@@ -7,27 +7,27 @@
 <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="RiskBrief — From Chaos to Coverage. Simplify your insurance journey with personalized risk assessment and coverage recommendations." />
+    <meta name="description" content="Get personalized insurance coverage recommendations based on your risk profile. Identify gaps, compare options, and find the right coverage in under 5 minutes." />
     <meta name="theme-color" content="#EF4444" />
     <meta name="color-scheme" content="light dark" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="RiskBrief — From Chaos to Coverage" />
-    <meta property="og:description" content="Get personalized insurance coverage recommendations based on your unique risk profile in minutes." />
+    <meta property="og:title" content="RiskBrief — Personalized Insurance Coverage Recommendations" />
+    <meta property="og:description" content="Get personalized insurance coverage recommendations based on your risk profile. Identify gaps, compare options, and find the right coverage in under 5 minutes." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="RiskBrief" />
     <meta property="og:url" content="https://riskbrief.app" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="RiskBrief — From Chaos to Coverage" />
-    <meta name="twitter:description" content="Get personalized insurance coverage recommendations based on your unique risk profile in minutes." />
+    <meta name="twitter:title" content="RiskBrief — Personalized Insurance Coverage Recommendations" />
+    <meta name="twitter:description" content="Get personalized insurance coverage recommendations based on your risk profile. Identify gaps, compare options, and find the right coverage in under 5 minutes." />
 
     <!-- Robots -->
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://riskbrief.app" />
 
-    <title>RiskBrief — From Chaos to Coverage</title>
+    <title>RiskBrief — Personalized Insurance Coverage Recommendations</title>
 
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
@@ -35,7 +35,7 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "RiskBrief",
-      "description": "Insurance risk assessment and coverage recommendation tool",
+      "description": "Free insurance risk assessment tool that provides personalized coverage recommendations based on your unique risk profile. Identify coverage gaps and find the right insurance in minutes.",
       "url": "https://riskbrief.app",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Web",
@@ -65,17 +65,14 @@
         background-color: #0f172a;
         color: #f1f5f9;
       }
-      /* Inline skeleton for instant perceived load */
+      /* Hide loader when root has content */
       #root:not(:empty) + .initial-loader { display: none; }
       .initial-loader {
         position: fixed;
         inset: 0;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-family: system-ui, -apple-system, sans-serif;
-        gap: 16px;
         background: #fff;
         z-index: 9999;
         transition: opacity 0.3s ease-out;
@@ -83,20 +80,18 @@
       @media (prefers-color-scheme: dark) {
         html:not([data-theme="light"]) .initial-loader {
           background: #0f172a;
-          color: #f1f5f9;
         }
       }
       [data-theme="dark"] .initial-loader {
         background: #0f172a;
-        color: #f1f5f9;
       }
       .initial-loader.fade-out {
         opacity: 0;
         pointer-events: none;
       }
       .initial-loader__spinner {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         border: 3px solid #e5e7eb;
         border-top-color: #ef4444;
         border-radius: 50%;
@@ -104,10 +99,6 @@
       }
       @keyframes il-spin {
         to { transform: rotate(360deg); }
-      }
-      .initial-loader__text {
-        color: #6b7280;
-        font-size: 14px;
       }
     </style>
 
@@ -128,16 +119,34 @@
     </script>
   </head>
   <body>
-    <div id="root"><div style="display:flex;align-items:center;justify-content:center;min-height:60vh;padding:40px 20px;font-family:system-ui,-apple-system,sans-serif;text-align:center">
-      <div>
-        <h1 style="font-size:28px;font-weight:700;color:#1f2937;margin:0 0 12px">RiskBrief</h1>
-        <p style="font-size:16px;color:#6b7280;margin:0 0 24px">Personalized insurance coverage recommendations based on your unique risk profile.</p>
-        <div style="display:inline-block;padding:12px 32px;background:#EF4444;color:#fff;border-radius:8px;font-size:16px;font-weight:600">Get My Risk Brief</div>
+    <div id="root"><div style="font-family:system-ui,-apple-system,sans-serif">
+      <!-- SEO-crawlable hero content — replaced by React on mount -->
+      <div style="background:linear-gradient(135deg,#f8fafc 0%,#ffffff 50%,#fef2f2 100%);min-height:100vh">
+        <div style="max-width:720px;margin:0 auto;padding:80px 24px;text-align:center">
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#fef2f2;border:1px solid #fecaca;border-radius:9999px;font-size:14px;color:#b91c1c;font-weight:500;margin-bottom:24px">
+            <span style="width:8px;height:8px;background:#ef4444;border-radius:50%;display:inline-block"></span>
+            Free Insurance Risk Assessment
+          </div>
+          <h1 style="font-size:clamp(28px,5vw,42px);font-weight:700;color:#111827;margin:0 0 16px;line-height:1.2">Personalized Insurance Coverage Recommendations</h1>
+          <p style="font-size:20px;color:#374151;margin:0 0 12px;font-weight:600;line-height:1.4">Get personalized coverage recommendations based on your unique risk profile — in minutes, not hours.</p>
+          <p style="font-size:16px;color:#6b7280;margin:0 0 32px;line-height:1.6">Answer a few questions about your life, health, and assets. Get a clear, jargon-free breakdown of exactly what insurance you need — and what you don't.</p>
+          <a href="#assessment" style="display:inline-block;padding:16px 40px;background:#EF4444;color:#fff;border-radius:12px;font-size:18px;font-weight:600;text-decoration:none;box-shadow:0 4px 14px rgba(239,68,68,0.35)">Get My Free Risk Brief &rarr;</a>
+          <div style="margin-top:32px;display:flex;gap:24px;justify-content:center;font-size:14px;color:#6b7280;flex-wrap:wrap">
+            <span>&#10003; Free Risk Assessment</span>
+            <span>&#10003; 5-Minute Process</span>
+            <span>&#10003; Expert Insights</span>
+          </div>
+          <!-- Key benefits for crawlers -->
+          <ul style="margin-top:48px;text-align:left;max-width:480px;margin-left:auto;margin-right:auto;list-style:none;padding:0;display:flex;flex-direction:column;gap:12px">
+            <li style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:#374151"><span style="color:#22c55e;font-weight:bold;flex-shrink:0">&#10003;</span> Smart risk assessment identifies your coverage gaps</li>
+            <li style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:#374151"><span style="color:#22c55e;font-weight:bold;flex-shrink:0">&#10003;</span> Instant recommendations for life, health, auto, and home insurance</li>
+            <li style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:#374151"><span style="color:#22c55e;font-weight:bold;flex-shrink:0">&#10003;</span> Cost optimization to avoid overpaying while staying protected</li>
+          </ul>
+        </div>
       </div>
     </div></div>
     <div class="initial-loader" aria-hidden="true">
       <div class="initial-loader__spinner"></div>
-      <p class="initial-loader__text">Loading RiskBrief...</p>
     </div>
     <!-- Fallback: remove initial-loader after max wait even if React fails to mount -->
     <script>
@@ -149,7 +158,6 @@
             setTimeout(function() { loader.remove(); }, 300);
           }
         }
-        // Remove loader when #root gets content (MutationObserver for robustness)
         var root = document.getElementById('root');
         if (root) {
           var observer = new MutationObserver(function() {
@@ -160,14 +168,13 @@
           });
           observer.observe(root, { childList: true });
         }
-        // Hard fallback: remove after 3 seconds regardless
         setTimeout(removeLoader, 3000);
       })();
     </script>
     <noscript>
       <div style="max-width:600px;margin:40px auto;padding:20px;text-align:center;font-family:system-ui,sans-serif;color:#1f2937;">
-        <h1 style="font-size:24px;margin-bottom:16px;">RiskBrief — From Chaos to Coverage</h1>
-        <p style="font-size:16px;color:#6b7280;">RiskBrief requires JavaScript to run. Please enable JavaScript in your browser settings to use the risk assessment tool.</p>
+        <h1 style="font-size:24px;margin-bottom:16px;">Personalized Insurance Coverage Recommendations</h1>
+        <p style="font-size:16px;color:#6b7280;">RiskBrief requires JavaScript to run the interactive risk assessment. Please enable JavaScript in your browser settings.</p>
       </div>
     </noscript>
     <script type="module" src="/src/main.tsx"></script>

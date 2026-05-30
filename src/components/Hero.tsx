@@ -50,8 +50,8 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 id="hero-heading"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
               >
-                Your Insurance Coverage,{' '}
-                <span className="gradient-text">Personalized</span>
+                Personalized Insurance{' '}
+                <span className="gradient-text">Coverage Recommendations</span>
               </h1>
               <p className="mt-4 text-xl sm:text-2xl font-semibold text-gray-800 max-w-2xl mx-auto lg:mx-0 leading-snug">
                 Get personalized coverage recommendations based on your unique risk profile — in minutes, not hours.
