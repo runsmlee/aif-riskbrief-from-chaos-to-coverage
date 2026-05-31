@@ -8,7 +8,6 @@ import './components/Hero';
 import './components/Features';
 import './components/HowItWorks';
 import './components/StatsAndCTA';
-import './components/Testimonials';
 import './components/FAQ';
 import './components/Footer';
 import './components/RiskAssessmentForm';
@@ -24,8 +23,8 @@ describe('App', () => {
 
   it('renders the hero section', () => {
     const html = renderToString(createElement(App));
-    expect(html).toContain('Personalized Insurance');
-    expect(html).toContain('Coverage Recommendations');
+    expect(html).toContain('Which Insurance Do You');
+    expect(html).toContain('Actually Need?');
   });
 
   it('renders the start assessment button', () => {
@@ -48,11 +47,6 @@ describe('App', () => {
     const html = renderToString(createElement(App));
     expect(html).toContain('Assessments Completed');
     expect(html).toContain('User Satisfaction');
-  });
-
-  it('renders the testimonials section', () => {
-    const html = renderToString(createElement(App));
-    expect(html).toContain('Trusted by Thousands');
   });
 
   it('renders the FAQ section', () => {

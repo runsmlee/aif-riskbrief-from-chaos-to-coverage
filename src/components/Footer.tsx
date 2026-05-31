@@ -125,7 +125,7 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
                 </a>
               </li>
               <li>
-                <a href="#testimonials" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
+                <a href="#faq" className="hover:text-white transition-colors text-sm inline-flex items-center gap-2 group">
                   <span className="w-1 h-1 bg-gray-600 rounded-full group-hover:bg-primary-500 transition-colors" aria-hidden="true" />
                   Blog
                 </a>

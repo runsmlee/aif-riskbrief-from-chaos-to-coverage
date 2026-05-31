@@ -150,12 +150,6 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
               How It Works
             </a>
             <a
-              href="#testimonials"
-              className="px-4 py-2 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg transition-all duration-200 font-medium"
-            >
-              Testimonials
-            </a>
-            <a
               href="#faq"
               className="px-4 py-2 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg transition-all duration-200 font-medium"
             >
@@ -236,16 +230,6 @@ export function Header({ className = '' }: HeaderProps): ReactElement {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 How It Works
-              </a>
-              <a
-                href="#testimonials"
-                className="px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 active:bg-primary-100 rounded-lg transition-all duration-200 font-medium flex items-center gap-3"
-                onClick={closeMobileMenu}
-              >
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                Testimonials
               </a>
               <a
                 href="#faq"

@@ -7,8 +7,23 @@ interface HeroProps {
   className?: string;
 }
 
+interface CoverageConcern {
+  id: string;
+  label: string;
+  icon: string;
+}
+
+const concerns: CoverageConcern[] = [
+  { id: 'life', label: 'Life', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+  { id: 'health', label: 'Health', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+  { id: 'auto', label: 'Auto', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+  { id: 'home', label: 'Home', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+  { id: 'disability', label: 'Disability', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+];
+
 export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactElement {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hoveredConcern, setHoveredConcern] = useState<string | null>(null);
   const { ref: vizRef, isVisible: vizVisible } = useScrollReveal({ threshold: 0.2 });
 
   useEffect(() => {
@@ -43,18 +58,18 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm text-primary-700 font-medium mb-6 shadow-sm">
                 <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse-dot" aria-hidden="true" />
-                Free Risk Assessment Tool
+                From Chaos to Coverage — Free Assessment
               </div>
 
               <h1
                 id="hero-heading"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
               >
-                Personalized Insurance{' '}
-                <span className="gradient-text">Coverage Recommendations</span>
+                Which Insurance Do You{' '}
+                <span className="gradient-text">Actually Need?</span>
               </h1>
               <p className="mt-4 text-xl sm:text-2xl font-semibold text-gray-800 max-w-2xl mx-auto lg:mx-0 leading-snug">
-                Get personalized coverage recommendations based on your unique risk profile — in minutes, not hours.
+                Our gap-finding engine spots the coverage holes your agent never mentioned — and flags what you&apos;re overpaying for.
               </p>
               <p className="mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                 Answer a few questions about your life, health, and assets. Get a clear, jargon-free breakdown of exactly what insurance you need — and what you don&apos;t.
@@ -99,7 +114,7 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Free Risk Brief</span>
+                <span>Free Gap Analysis</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -111,67 +126,90 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Expert Insights</span>
+                <span>No Sign-Up Required</span>
               </div>
             </div>
           </div>
 
-          {/* Right column - Visual card */}
+          {/* Right column - Interactive quick-start widget */}
           <div
             ref={vizRef}
             className={`hidden md:block relative transition-all duration-700 ease-out ${
               vizVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
             }`}
           >
-            <div className="relative w-full aspect-square max-w-lg mx-auto">
+            <div className="relative w-full max-w-lg mx-auto">
               {/* Decorative rotated background */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-100 to-primary-200 rounded-3xl transform rotate-3 shadow-lg" />
               {/* Decorative dots pattern */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-200/40 rounded-full blur-xl" aria-hidden="true" />
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-primary-300/30 rounded-full blur-xl" aria-hidden="true" />
               {/* Main card */}
-              <div className="absolute inset-0 bg-white rounded-3xl shadow-2xl p-8 border border-gray-100/50">
+              <div className="relative bg-white rounded-3xl shadow-2xl p-8 border border-gray-100/50">
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  <div className="text-center">
+                    <div className="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-7 h-7 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Risk Score</p>
-                      <p className="text-2xl font-bold text-gray-900">Moderate</p>
-                    </div>
+                    <p className="text-lg font-bold text-gray-900">What worries you most?</p>
+                    <p className="text-sm text-gray-500 mt-1">Pick one to start your analysis</p>
                   </div>
 
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full w-3/5 bg-gradient-to-r from-primary-400 to-primary-500 rounded-full animate-progress" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <p className="text-xs text-gray-500 mb-1">Life Coverage</p>
-                      <p className="text-lg font-semibold text-gray-900">$500K</p>
-                    </div>
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <p className="text-xs text-gray-500 mb-1">Health Coverage</p>
-                      <p className="text-lg font-semibold text-gray-900">$250K</p>
-                    </div>
-                    <div className="bg-gray-50 rounded-xl p-4">
-                      <p className="text-xs text-gray-500 mb-1">Auto Coverage</p>
-                      <p className="text-lg font-semibold text-gray-900">$100K</p>
-                    </div>
-                    <div className="bg-primary-50 rounded-xl p-4 border border-primary-100">
-                      <p className="text-xs text-primary-600 mb-1">Monthly Premium</p>
-                      <p className="text-lg font-semibold text-primary-600">$127</p>
-                    </div>
+                  <div className="space-y-3" role="group" aria-label="Coverage concern options">
+                    {concerns.map((concern) => (
+                      <button
+                        key={concern.id}
+                        type="button"
+                        onClick={onStartAssessment}
+                        onMouseEnter={() => setHoveredConcern(concern.id)}
+                        onMouseLeave={() => setHoveredConcern(null)}
+                        onFocus={() => setHoveredConcern(concern.id)}
+                        onBlur={() => setHoveredConcern(null)}
+                        className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-xl border-2 transition-all duration-200 text-left group focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2 ${
+                          hoveredConcern === concern.id
+                            ? 'border-primary-400 bg-primary-50 shadow-md translate-x-1'
+                            : 'border-gray-100 bg-gray-50 hover:border-primary-200 hover:bg-primary-50/50'
+                        }`}
+                        aria-label={`Start analysis for ${concern.label} insurance`}
+                      >
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
+                          hoveredConcern === concern.id
+                            ? 'bg-primary-500 text-white'
+                            : 'bg-gray-100 text-gray-400 group-hover:bg-primary-100 group-hover:text-primary-500'
+                        }`}>
+                          <span className="text-sm font-bold">{concern.label.charAt(0)}</span>
+                        </div>
+                        <div className="flex-1">
+                          <p className={`font-semibold text-sm transition-colors duration-200 ${
+                            hoveredConcern === concern.id ? 'text-primary-700' : 'text-gray-700'
+                          }`}>
+                            {`${concern.label} Insurance`}
+                          </p>
+                        </div>
+                        <svg
+                          className={`w-5 h-5 transition-all duration-200 ${
+                            hoveredConcern === concern.id
+                              ? 'text-primary-500 translate-x-0'
+                              : 'text-gray-300 group-hover:text-primary-300'
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    ))}
                   </div>
 
                   <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 rounded-lg px-3 py-2">
                     <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    <span className="font-medium">You could save $180/year</span>
+                    <span className="font-medium">100% free — no sign-up, no spam</span>
                   </div>
                 </div>
               </div>

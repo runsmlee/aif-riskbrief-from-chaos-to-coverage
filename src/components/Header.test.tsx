@@ -30,9 +30,8 @@ describe('Header', () => {
     expect(html).toContain('aria-label="Open menu"');
   });
 
-  it('has Testimonials and FAQ nav links', () => {
+  it('has FAQ nav link', () => {
     const html = renderToString(createElement(Header));
-    expect(html).toContain('Testimonials');
     expect(html).toContain('FAQ');
   });
 

@@ -9,7 +9,6 @@ import {
   StatsSkeleton,
   FeaturesSkeleton,
   HowItWorksSkeleton,
-  TestimonialsSkeleton,
   FAQSkeleton,
   AssessmentSkeleton,
   RecommendationsSkeleton,
@@ -23,9 +22,6 @@ const HowItWorks = lazy(() =>
 );
 const StatsAndCTA = lazy(() =>
   import('./components/StatsAndCTA').then((m) => ({ default: m.StatsAndCTA }))
-);
-const Testimonials = lazy(() =>
-  import('./components/Testimonials').then((m) => ({ default: m.Testimonials }))
 );
 const FAQ = lazy(() =>
   import('./components/FAQ').then((m) => ({ default: m.FAQ }))
@@ -182,9 +178,6 @@ function AppInner(): ReactElement {
               </Suspense>
               <Suspense fallback={<HowItWorksSkeleton />}>
                 <HowItWorks />
-              </Suspense>
-              <Suspense fallback={<TestimonialsSkeleton />}>
-                <Testimonials />
               </Suspense>
               <Suspense fallback={<FAQSkeleton />}>
                 <FAQ />

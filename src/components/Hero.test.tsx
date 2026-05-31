@@ -4,15 +4,15 @@ import { renderToString } from 'react-dom/server';
 import { Hero } from './Hero';
 
 describe('Hero', () => {
-  it('renders the main headline', () => {
+  it('renders the main headline as a question', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Personalized Insurance');
-    expect(html).toContain('Coverage Recommendations');
+    expect(html).toContain('Which Insurance Do You');
+    expect(html).toContain('Actually Need?');
   });
 
-  it('renders the tagline', () => {
+  it('renders the gap-finding subheadline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('personalized coverage recommendations');
+    expect(html).toContain('gap-finding engine');
   });
 
   it('renders the Get My Risk Brief button', () => {
@@ -22,25 +22,30 @@ describe('Hero', () => {
 
   it('renders trust indicators', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Free Risk Brief');
+    expect(html).toContain('Free Gap Analysis');
     expect(html).toContain('5-Minute Process');
-    expect(html).toContain('Expert Insights');
+    expect(html).toContain('No Sign-Up Required');
   });
 
-  it('renders the badge / pill', () => {
+  it('renders the From Chaos to Coverage tagline badge', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Free Risk Assessment Tool');
+    expect(html).toContain('From Chaos to Coverage');
   });
 
-  it('renders the visual card with risk info', () => {
+  it('renders the interactive coverage concern widget', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Risk Score');
-    expect(html).toContain('Monthly Premium');
+    expect(html).toContain('What worries you most?');
+    expect(html).toContain('Life Insurance');
+    expect(html).toContain('Health Insurance');
+    expect(html).toContain('Auto Insurance');
+    expect(html).toContain('Home Insurance');
+    expect(html).toContain('Disability Insurance');
   });
 
-  it('renders estimated savings indicator', () => {
+  it('renders free assurance messaging', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('save $180/year');
+    expect(html).toContain('no sign-up');
+    expect(html).toContain('no spam');
   });
 
   it('has Learn More link', () => {

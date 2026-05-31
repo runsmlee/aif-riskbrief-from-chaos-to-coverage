@@ -83,8 +83,7 @@ describe('Footer', () => {
     // Careers → #how-it-works
     expect(html).toContain('href="#how-it-works"');
     expect(html).toContain('>Careers<');
-    // Blog → #testimonials
-    expect(html).toContain('href="#testimonials"');
+    // Blog → #faq
     expect(html).toContain('>Blog<');
     // Contact → #faq
     expect(html).toContain('href="#faq"');
