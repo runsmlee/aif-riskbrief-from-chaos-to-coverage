@@ -15,6 +15,12 @@ describe('Hero', () => {
     expect(html).toContain('gap-finding engine');
   });
 
+  it('renders the mechanism subtitle as an h2', () => {
+    const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
+    expect(html).toContain('Answer 12 questions');
+    expect(html).toContain('coverage gaps and overlaps');
+  });
+
   it('renders the Get My Risk Brief button', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
     expect(html).toContain('Get My Risk Brief');

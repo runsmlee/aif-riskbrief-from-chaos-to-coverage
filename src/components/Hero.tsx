@@ -68,6 +68,9 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 Which Insurance Do You{' '}
                 <span className="gradient-text">Actually Need?</span>
               </h1>
+              <h2 className="mt-3 text-lg sm:text-xl font-semibold text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-snug">
+                Answer 12 questions. Get a personalized report of coverage gaps and overlaps.
+              </h2>
               <p className="mt-4 text-xl sm:text-2xl font-semibold text-gray-800 max-w-2xl mx-auto lg:mx-0 leading-snug">
                 Our gap-finding engine spots the coverage holes your agent never mentioned — and flags what you&apos;re overpaying for.
               </p>
