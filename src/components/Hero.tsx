@@ -65,18 +65,26 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 id="hero-heading"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
               >
-                Which Insurance Do You{' '}
-                <span className="gradient-text">Actually Need?</span>
+                Find the Insurance Gaps{' '}
+                <span className="gradient-text">Your Agent Never Mentioned</span>
               </h1>
-              <h2 className="mt-3 text-lg sm:text-xl font-semibold text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-snug">
-                Answer 12 questions. Get a personalized report of coverage gaps and overlaps.
+              <h2 className="mt-4 text-lg sm:text-xl font-semibold text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-snug">
+                Most people discover they&apos;re overpaying for one policy and missing another entirely.
               </h2>
-              <p className="mt-4 text-xl sm:text-2xl font-semibold text-gray-800 max-w-2xl mx-auto lg:mx-0 leading-snug">
-                Our gap-finding engine spots the coverage holes your agent never mentioned — and flags what you&apos;re overpaying for.
-              </p>
-              <p className="mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Answer a few questions about your life, health, and assets. Get a clear, jargon-free breakdown of exactly what insurance you need — and what you don&apos;t.
-              </p>
+              <ul className="mt-4 space-y-2 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0">
+                <li className="flex items-start gap-3">
+                  <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
+                  <span>Duplicate coverage you didn&apos;t know you had across policies</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
+                  <span>Costly gaps in disability, umbrella, or liability protection</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
+                  <span>Policies that don&apos;t match your current life stage or assets</span>
+                </li>
+              </ul>
             </div>
 
             <div
@@ -89,7 +97,7 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 onClick={onStartAssessment}
                 className="btn btn-primary text-lg px-10 py-5 shadow-lg shadow-primary-500/30 group"
               >
-                Get My Risk Brief
+                Find My Gaps — 12 Questions
                 <svg
                   className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
                   fill="none"
@@ -118,6 +126,12 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>Free Gap Analysis</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>12 Questions, 5 Minutes</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">

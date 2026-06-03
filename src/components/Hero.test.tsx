@@ -4,32 +4,35 @@ import { renderToString } from 'react-dom/server';
 import { Hero } from './Hero';
 
 describe('Hero', () => {
-  it('renders the main headline as a question', () => {
+  it('renders the main headline about insurance gaps', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Which Insurance Do You');
-    expect(html).toContain('Actually Need?');
+    expect(html).toContain('Find the Insurance Gaps');
+    expect(html).toContain('Your Agent Never Mentioned');
   });
 
-  it('renders the gap-finding subheadline', () => {
+  it('renders the concrete discovery subheadline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('gap-finding engine');
+    expect(html).toContain('overpaying for one policy');
+    expect(html).toContain('missing another entirely');
   });
 
-  it('renders the mechanism subtitle as an h2', () => {
+  it('renders concrete examples of what people discover', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Answer 12 questions');
-    expect(html).toContain('coverage gaps and overlaps');
+    expect(html).toContain('Duplicate coverage');
+    expect(html).toContain('disability, umbrella, or liability');
+    expect(html).toContain('current life stage or assets');
   });
 
-  it('renders the Get My Risk Brief button', () => {
+  it('renders the Find My Gaps CTA button', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Get My Risk Brief');
+    expect(html).toContain('Find My Gaps');
+    expect(html).toContain('12 Questions');
   });
 
   it('renders trust indicators', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
     expect(html).toContain('Free Gap Analysis');
-    expect(html).toContain('5-Minute Process');
+    expect(html).toContain('12 Questions, 5 Minutes');
     expect(html).toContain('No Sign-Up Required');
   });
 
