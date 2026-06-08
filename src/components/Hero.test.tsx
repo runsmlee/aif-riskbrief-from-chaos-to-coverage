@@ -6,21 +6,21 @@ import { Hero } from './Hero';
 describe('Hero', () => {
   it('renders the main headline about insurance gaps', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Find the Insurance Gaps');
-    expect(html).toContain('Your Agent Never Mentioned');
+    expect(html).toContain('Instantly Identify');
+    expect(html).toContain('Insurance Coverage Gaps');
   });
 
   it('renders the concrete discovery subheadline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('overpaying for one policy');
-    expect(html).toContain('missing another entirely');
+    expect(html).toContain('personalized coverage gap assessment');
+    expect(html).toContain('overpaying or under-protected');
   });
 
   it('renders concrete examples of what people discover', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
     expect(html).toContain('Duplicate coverage');
     expect(html).toContain('disability, umbrella, or liability');
-    expect(html).toContain('current life stage or assets');
+    expect(html).toContain('misaligned with your current life stage');
   });
 
   it('renders the Find My Gaps CTA button', () => {

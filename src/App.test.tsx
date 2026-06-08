@@ -23,8 +23,8 @@ describe('App', () => {
 
   it('renders the hero section', () => {
     const html = renderToString(createElement(App));
-    expect(html).toContain('Find the Insurance Gaps');
-    expect(html).toContain('Your Agent Never Mentioned');
+    expect(html).toContain('Instantly Identify');
+    expect(html).toContain('Insurance Coverage Gaps');
   });
 
   it('renders the start assessment button', () => {

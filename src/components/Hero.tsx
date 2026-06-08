@@ -65,16 +65,17 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 id="hero-heading"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
               >
-                Find the Insurance Gaps{' '}
-                <span className="gradient-text">Your Agent Never Mentioned</span>
+                Instantly Identify{' '}
+                <span className="gradient-text">Insurance Coverage Gaps</span>{' '}
+                in Your Policies
               </h1>
               <h2 className="mt-4 text-lg sm:text-xl font-semibold text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-snug">
-                Most people discover they&apos;re overpaying for one policy and missing another entirely.
+                Get a personalized coverage gap assessment in 5 minutes — see exactly where you&apos;re overpaying or under-protected.
               </h2>
               <ul className="mt-4 space-y-2 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0">
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
-                  <span>Duplicate coverage you didn&apos;t know you had across policies</span>
+                  <span>Duplicate coverage across policies you&apos;re paying twice for</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
@@ -82,7 +83,7 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
-                  <span>Policies that don&apos;t match your current life stage or assets</span>
+                  <span>Policies misaligned with your current life stage or assets</span>
                 </li>
               </ul>
             </div>
