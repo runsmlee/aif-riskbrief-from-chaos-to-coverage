@@ -23,7 +23,7 @@ describe('App', () => {
 
   it('renders the hero section', () => {
     const html = renderToString(createElement(App));
-    expect(html).toContain('Instantly Identify');
+    expect(html).toContain('Find Your');
     expect(html).toContain('Insurance Coverage Gaps');
   });
 

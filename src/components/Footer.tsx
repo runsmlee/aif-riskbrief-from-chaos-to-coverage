@@ -33,7 +33,7 @@ function FooterInner({ className = '' }: FooterProps): ReactElement {
               <span className="text-xl font-bold text-white">RiskBrief</span>
             </div>
             <p className="text-sm leading-relaxed text-gray-400">
-              From Chaos to Coverage. Making insurance decisions simple and informed.
+              Free insurance gap analysis tool. Find duplicate coverage and liability gaps in minutes.
             </p>
             <div className="flex gap-3 mt-6">
               <a

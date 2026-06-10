@@ -11,7 +11,8 @@ describe('Footer', () => {
 
   it('renders the tagline', () => {
     const html = renderToString(createElement(Footer));
-    expect(html).toContain('From Chaos to Coverage');
+    expect(html).toContain('Free insurance gap analysis tool');
+    expect(html).toContain('duplicate coverage and liability gaps');
   });
 
   it('renders the current year in copyright', () => {

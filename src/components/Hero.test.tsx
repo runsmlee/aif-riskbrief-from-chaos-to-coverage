@@ -6,20 +6,21 @@ import { Hero } from './Hero';
 describe('Hero', () => {
   it('renders the main headline about insurance gaps', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Instantly Identify');
+    expect(html).toContain('Find Your');
     expect(html).toContain('Insurance Coverage Gaps');
+    expect(html).toContain('Free 5-Minute Check');
   });
 
   it('renders the concrete discovery subheadline', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('personalized coverage gap assessment');
-    expect(html).toContain('overpaying or under-protected');
+    expect(html).toContain('Answer 12 questions');
+    expect(html).toContain('duplicate coverage and liability gaps');
   });
 
   it('renders concrete examples of what people discover', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
     expect(html).toContain('Duplicate coverage');
-    expect(html).toContain('disability, umbrella, or liability');
+    expect(html).toContain('Liability gaps');
     expect(html).toContain('misaligned with your current life stage');
   });
 
@@ -36,9 +37,11 @@ describe('Hero', () => {
     expect(html).toContain('No Sign-Up Required');
   });
 
-  it('renders the From Chaos to Coverage tagline badge', () => {
+  it('renders the curiosity-driven tagline badge', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('From Chaos to Coverage');
+    expect(html).toContain('gaps they don');
+    expect(html).toContain('know about');
+    expect(html).toContain('Find yours');
   });
 
   it('renders the interactive coverage concern widget', () => {

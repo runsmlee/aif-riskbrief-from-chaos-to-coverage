@@ -58,28 +58,28 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm text-primary-700 font-medium mb-6 shadow-sm">
                 <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse-dot" aria-hidden="true" />
-                From Chaos to Coverage — Free Assessment
+                Most people have gaps they don&apos;t know about. Find yours.
               </div>
 
               <h1
                 id="hero-heading"
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight tracking-tight"
               >
-                Instantly Identify{' '}
+                Find Your{' '}
                 <span className="gradient-text">Insurance Coverage Gaps</span>{' '}
-                in Your Policies
+                — Free 5-Minute Check
               </h1>
               <h2 className="mt-4 text-lg sm:text-xl font-semibold text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-snug">
-                Get a personalized coverage gap assessment in 5 minutes — see exactly where you&apos;re overpaying or under-protected.
+                Answer 12 questions about your life, health, auto &amp; home policies to find duplicate coverage and liability gaps.
               </h2>
               <ul className="mt-4 space-y-2 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0">
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
-                  <span>Duplicate coverage across policies you&apos;re paying twice for</span>
+                  <span>Duplicate coverage you&apos;re paying twice for across policies</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
-                  <span>Costly gaps in disability, umbrella, or liability protection</span>
+                  <span>Liability gaps in disability, umbrella, or life protection</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
