@@ -51,7 +51,7 @@ describe('App', () => {
 
   it('renders the FAQ section', () => {
     const html = renderToString(createElement(App));
-    expect(html).toContain('Frequently Asked Questions');
+    expect(html).toContain('Insurance Coverage Gap FAQ');
   });
 
   it('renders the footer', () => {

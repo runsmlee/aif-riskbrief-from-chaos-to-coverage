@@ -19,9 +19,10 @@ describe('Hero', () => {
 
   it('renders concrete examples of what people discover', () => {
     const html = renderToString(createElement(Hero, { onStartAssessment: () => {} }));
-    expect(html).toContain('Duplicate coverage');
-    expect(html).toContain('Liability gaps');
-    expect(html).toContain('misaligned with your current life stage');
+    expect(html).toContain('credit card may already cover rental car damage');
+    expect(html).toContain('employer life insurance is 1x salary');
+    expect(html).toContain('homeowner');
+    expect(html).toContain('flood');
   });
 
   it('renders the Find My Gaps CTA button', () => {

@@ -10,33 +10,33 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     id: 'faq-1',
-    question: 'How does RiskBrief generate my risk assessment?',
-    answer: 'RiskBrief uses a proprietary algorithm that considers your age, lifestyle, health conditions, assets, and financial profile. We analyze these factors against industry risk models to produce a personalized risk score and coverage recommendations.',
+    question: 'What are the most common insurance coverage gaps?',
+    answer: 'The most frequent gaps we see are underinsured life coverage (employer plans typically cover only 1x salary when you need 5–10x), missing disability insurance, and duplicate rental car coverage across auto and credit card policies. Run our free 5-minute check to find which ones affect you.',
   },
   {
     id: 'faq-2',
-    question: 'Is my personal information secure?',
-    answer: 'Absolutely. We use bank-level encryption to protect your data. Your information is never sold to third parties, and we only collect what is necessary to generate your assessment. You can delete your data at any time.',
+    question: 'How do I check if I have duplicate insurance coverage?',
+    answer: 'Start by listing every policy you pay for — auto, home, health, life, and any add-ons from credit cards or employer benefits. Look for overlapping benefits like roadside assistance (auto + credit card) or rental car damage (auto + card + standalone policy). Our tool cross-checks all your policies automatically in 12 questions.',
   },
   {
     id: 'faq-3',
-    question: 'How long does the assessment take?',
-    answer: 'The full assessment typically takes 3-5 minutes. We designed it to be quick while still gathering enough information to provide meaningful, personalized recommendations.',
+    question: 'What insurance gaps are typical at age 30, 40, and 50?',
+    answer: 'At 30, the biggest gap is usually no disability insurance despite depending on your income. At 40, it\'s life insurance that hasn\'t kept up with a growing family and mortgage. At 50, long-term care and umbrella liability coverage are commonly missing. Our assessment adjusts recommendations to your exact life stage.',
   },
   {
     id: 'faq-4',
-    question: 'Are the coverage recommendations binding?',
-    answer: 'No. RiskBrief provides educational recommendations to help you understand your coverage needs. To purchase insurance, you will need to connect with a licensed insurance provider. We can help facilitate that connection if you choose.',
+    question: 'Is my homeowner\'s policy enough, or do I have coverage gaps?',
+    answer: 'Most standard homeowner\'s policies exclude flood damage, sewer backup, earthquake, and high-value items like jewelry over $1,500. If you live in a flood zone — and 1 in 4 flood claims come from low-risk areas — you likely need a separate flood policy. Our tool flags exactly which perils your home policy misses.',
   },
   {
     id: 'faq-5',
-    question: 'Is RiskBrief free to use?',
-    answer: 'Yes, the basic risk assessment and coverage recommendations are completely free. There are no hidden fees or obligations. We believe everyone deserves access to clear insurance guidance.',
+    question: 'How much life insurance do I actually need?',
+    answer: 'A common rule of thumb is 5–10x your annual income, but the real number depends on your mortgage balance, number of dependents, and existing coverage. Many people with employer-provided life insurance (typically 1x salary) are drastically underinsured. Our assessment calculates your exact gap based on your real numbers.',
   },
   {
     id: 'faq-6',
-    question: 'How often should I retake the assessment?',
-    answer: 'We recommend retaking the assessment whenever you experience a major life change such as getting married, buying a home, having children, or changing jobs. At minimum, we suggest an annual review to ensure your coverage stays aligned with your needs.',
+    question: 'Does employer-provided insurance leave me with gaps?',
+    answer: 'Yes — employer coverage usually stops the day you leave your job, and it\'s often limited to 1x salary for life and 60% of income for disability. If you have a mortgage, dependents, or health conditions, that\'s rarely enough. Our free check shows exactly where your employer coverage falls short.',
   },
 ];
 
@@ -113,10 +113,10 @@ export function FAQ({ className = '' }: FAQProps): ReactElement {
             id="faq-heading"
             className="text-3xl sm:text-4xl font-bold text-gray-900"
           >
-            Frequently Asked Questions
+            Insurance Coverage Gap FAQ
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            Got questions? We&apos;ve got answers.
+            Common questions about finding and fixing insurance coverage gaps.
           </p>
         </div>
 

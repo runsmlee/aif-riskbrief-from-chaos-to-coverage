@@ -6,20 +6,20 @@ import { FAQ } from './FAQ';
 describe('FAQ', () => {
   it('renders the section heading', () => {
     const html = renderToString(createElement(FAQ));
-    expect(html).toContain('Frequently Asked Questions');
+    expect(html).toContain('Insurance Coverage Gap FAQ');
   });
 
   it('renders FAQ questions', () => {
     const html = renderToString(createElement(FAQ));
-    expect(html).toContain('How does RiskBrief generate my risk assessment?');
-    expect(html).toContain('Is my personal information secure?');
-    expect(html).toContain('Is RiskBrief free to use?');
+    expect(html).toContain('What are the most common insurance coverage gaps?');
+    expect(html).toContain('How do I check if I have duplicate insurance coverage?');
+    expect(html).toContain('Does employer-provided insurance leave me with gaps?');
   });
 
   it('renders FAQ answers', () => {
     const html = renderToString(createElement(FAQ));
-    expect(html).toContain('bank-level encryption');
-    expect(html).toContain('3-5 minutes');
+    expect(html).toContain('underinsured life coverage');
+    expect(html).toContain('employer coverage usually stops');
   });
 
   it('has proper accordion semantics', () => {
@@ -40,7 +40,7 @@ describe('FAQ', () => {
 
   it('has proper FAQ questions text', () => {
     const html = renderToString(createElement(FAQ));
-    expect(html).toContain('How does RiskBrief generate my risk assessment?');
-    expect(html).toContain('Is RiskBrief free to use?');
+    expect(html).toContain('What insurance gaps are typical at age 30, 40, and 50?');
+    expect(html).toContain('How much life insurance do I actually need?');
   });
 });

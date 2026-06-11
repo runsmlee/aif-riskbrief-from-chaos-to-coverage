@@ -75,15 +75,15 @@ export function Hero({ onStartAssessment, className = '' }: HeroProps): ReactEle
               <ul className="mt-4 space-y-2 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0">
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
-                  <span>Duplicate coverage you&apos;re paying twice for across policies</span>
+                  <span>Your credit card may already cover rental car damage, but you&apos;re paying $15/month for it on your auto policy</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
-                  <span>Liability gaps in disability, umbrella, or life protection</span>
+                  <span>Your employer life insurance is 1x salary, but your mortgage alone is 3x salary</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary-500 font-bold flex-shrink-0 mt-0.5" aria-hidden="true">→</span>
-                  <span>Policies misaligned with your current life stage or assets</span>
+                  <span>Your homeowner&apos;s policy covers fire but not flood — and 1 in 4 flood claims come from low-risk zones</span>
                 </li>
               </ul>
             </div>
